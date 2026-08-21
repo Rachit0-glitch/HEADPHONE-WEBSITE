@@ -4,13 +4,21 @@ import ProductSequence from "@/components/ProductSequence";
 import ProductSectionBlue from "@/components/ProductSectionBlue";
 import ProductSectionBlack from "@/components/ProductSectionBlack";
 import ProductSectionGreen from "@/components/ProductSectionGreen";
+import ProductSectionBeige from "@/components/ProductSectionBeige";
 
 export default function Home() {
   return (
     <main>
       <SiteHeader />
       <HeroSection />
-      <ProductSequence states={[<ProductSectionBlue key="blue" />, <ProductSectionBlack key="black" />, <ProductSectionGreen key="green" />]} />
+      <ProductSequence
+        states={[
+          <ProductSectionBlue key="blue" />,
+          <ProductSectionBlack key="black" />,
+          <ProductSectionGreen key="green" />,
+          <ProductSectionBeige key="beige" />,
+        ]}
+      />
     </main>
   );
 }

@@ -22,10 +22,9 @@ export default function ProductSectionGreen() {
       {/* ---- UI chrome (nav/logo/shop-pill live once in the shared, fixed SiteHeader) ---- */}
       <div className={styles.leftColumn}>
         <h1 className={styles.headline}>
-          <span className={styles.dark}>BLOCK</span>
-          <span className={styles.dark}>THE NOISE</span>
-          <span className={styles.accent}>OWN YOUR</span>
-          <span className={styles.accent}>WORLD</span>
+          <span className={styles.dark}>SOUND AS</span>
+          <span className={styles.dark}>PURE AS</span>
+          <span className={styles.accent}>NATURE</span>
         </h1>
 
         <p className={styles.subtext}>

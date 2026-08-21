@@ -1,25 +1,97 @@
 /*
-  One continuous scroll zone for the entire Blue->Black->Green (->Beige later) sequence — this is
-  what actually fixes the "3rd section" problem the previous two-ProductStage version had: two
-  separate sticky-pinned zones chained back to back read as two distinct sections even though the
-  content was continuous. Here there's exactly one `.wrapper` / `.sticky` pair for every state, so
-  there's only ever one pinned zone for the whole "2nd section" of the site.
+  One continuous scroll zone for the entire Blue->Black->Green->Beige sequence — this is what actually
+  fixes the "3rd section" problem an earlier version had: two separate sticky-pinned zones chained back
+  to back read as two distinct sections even though the content was continuous. Here there's exactly
+  one `.wrapper` / `.sticky` pair for every state, so there's only ever one pinned zone for the whole
+  "2nd section" of the site.
 
-  `.wrapper` is taller than one viewport (100dvh to hold the panel in place + a short extra scroll
-  distance per transition to scrub through), and `.sticky` pins itself to the top of the viewport for
-  as long as `.wrapper` is being scrolled through. Every state is stacked absolutely inside `.sticky`
-  at the exact same footprint (`position: sticky` is itself a positioned element, so it's the
-  containing block each state's `position: absolute; inset: 0;` lines up against) — none of them move
-  as a whole block; each reads its own fixed `--entrance-N`/`--exit-N` custom properties (written by
-  ProductSequence.tsx on scroll) directly in its own CSS for its opacity/headphone-transform.
+  `.wrapper` is taller than one viewport (100dvh to hold the panel in place + a scroll distance per
+  transition to scrub through), and `.sticky` pins itself to the top of the viewport for as long as
+  `.wrapper` is being scrolled through. Every state is stacked absolutely inside `.sticky` at the exact
+  same footprint (`position: sticky` is itself a positioned element, so it's the containing block each
+  state's `position: absolute; inset: 0;` lines up against) — none of them move as a whole block; each
+  reads its own fixed `--entrance-N`/`--exit-N` custom properties for its opacity/headphone-transform.
+
+  Snap-not-scrub: ProductSequence.tsx no longer drives these properties continuously frame-by-frame as
+  a fraction of scroll position — it snaps to whichever state's "zone" the scroll position falls in and
+  sets that state's entrance/exit to a flat 0 or 1. What makes it visibly ANIMATE rather than just
+  jump is entirely below: each --entrance-N/--exit-N is registered via @property (so the browser knows
+  it's a plain interpolatable number) and given a `transition` on `.sticky`, so whenever JS flips one
+  from 0 to 1 (or back), the browser smoothly animates it over a fixed duration regardless of how much
+  or how little was actually scrolled to trigger that flip — one small scroll or one large one both
+  play the exact same, fully visible crossfade.
 
   NOT `overflow-x: hidden` on html/body: that turns it into its own scroll container, which breaks
   `position: sticky` (the actual root cause of an earlier, unrelated "white section" bug).
 */
 
+/* Registered up to index 5 — headroom for a couple more color variants beyond today's four (Blue,
+   Black, Green, Beige) without needing to touch this file again. Unused indices simply never get set
+   by ProductSequence.tsx and stay at their initial-value, which components never read anyway. */
+@property --entrance-0 {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+@property --entrance-1 {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --entrance-2 {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --entrance-3 {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --entrance-4 {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --entrance-5 {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --exit-0 {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --exit-1 {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --exit-2 {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --exit-3 {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --exit-4 {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --exit-5 {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
 .wrapper {
   position: relative;
-  height: 220dvh; /* fallback for the instant before JS measures window.innerHeight and takes over in px — matches 3 states * 0.6 scrubViewportsPerTransition */
+  height: 250dvh; /* fallback for the instant before JS measures window.innerHeight and takes over in px */
 }
 
 .sticky {
@@ -27,4 +99,10 @@
   top: 0;
   height: 100dvh;
   overflow: hidden;
+  transition: --entrance-0 0.7s cubic-bezier(0.65, 0, 0.35, 1), --entrance-1 0.7s cubic-bezier(0.65, 0, 0.35, 1),
+    --entrance-2 0.7s cubic-bezier(0.65, 0, 0.35, 1), --entrance-3 0.7s cubic-bezier(0.65, 0, 0.35, 1),
+    --entrance-4 0.7s cubic-bezier(0.65, 0, 0.35, 1), --entrance-5 0.7s cubic-bezier(0.65, 0, 0.35, 1),
+    --exit-0 0.7s cubic-bezier(0.65, 0, 0.35, 1), --exit-1 0.7s cubic-bezier(0.65, 0, 0.35, 1), --exit-2 0.7s
+      cubic-bezier(0.65, 0, 0.35, 1), --exit-3 0.7s cubic-bezier(0.65, 0, 0.35, 1), --exit-4 0.7s
+      cubic-bezier(0.65, 0, 0.35, 1), --exit-5 0.7s cubic-bezier(0.65, 0, 0.35, 1);
 }
