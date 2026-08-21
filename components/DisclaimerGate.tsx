@@ -26,17 +26,21 @@ export default function DisclaimerGate({ children }: { children: React.ReactNode
     return (
       <div className={styles.overlay} role="dialog" aria-modal="true" aria-labelledby="disclaimer-title">
         <div className={styles.panel}>
-          <span className={styles.brand}>SONIC&deg;</span>
-          <h2 id="disclaimer-title" className={styles.title}>
-            Before You Continue
-          </h2>
-          <p className={styles.body}>{DISCLAIMER_TEXT}</p>
-          <button type="button" className={styles.button} onClick={() => setAccepted(true)}>
-            <span>I Understand &mdash; Enter Site</span>
-            <span className={styles.buttonArrow} aria-hidden="true">
-              &rarr;
-            </span>
-          </button>
+          <div className={styles.brandCol}>
+            <span className={styles.brand}>SONIC&deg;</span>
+            <h2 id="disclaimer-title" className={styles.title}>
+              Before You Continue
+            </h2>
+          </div>
+          <div className={styles.bodyCol}>
+            <p className={styles.body}>{DISCLAIMER_TEXT}</p>
+            <button type="button" className={styles.button} onClick={() => setAccepted(true)}>
+              <span>I Understand &mdash; Enter Site</span>
+              <span className={styles.buttonArrow} aria-hidden="true">
+                &rarr;
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     );

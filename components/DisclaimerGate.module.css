@@ -16,24 +16,40 @@
   font-family: var(--font-montserrat), Montserrat, "Helvetica Neue", Arial, sans-serif;
 }
 
+/* Wide-and-short, not a tall single column: the brand mark + title sit in a left rail, the paragraph
+   + button in a wider right column, so the card reads as a horizontal panel even with ~190 words of
+   body copy. Falls back to stacked columns only below ~760px, where there isn't room for two. */
 .panel {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 18px;
-  max-width: 620px;
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) 1fr;
+  align-items: start;
+  column-gap: clamp(28px, 4vw, 56px);
+  row-gap: 18px;
+  max-width: 960px;
   width: 100%;
-  padding: clamp(28px, 5vw, 52px);
+  padding: clamp(28px, 3.6vw, 48px);
   border-radius: 20px;
   background: #141414;
   border: 1px solid #262626;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
 }
 
+@media (max-width: 760px) {
+  .panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+.brandCol {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .brand {
   font-family: var(--font-antonio), Antonio, "Arial Narrow", sans-serif;
   font-weight: 700;
-  font-size: clamp(22px, 3vw, 28px);
+  font-size: clamp(22px, 2.2vw, 28px);
   letter-spacing: 2px;
   color: #fff;
 }
@@ -42,21 +58,29 @@
   margin: 0;
   font-family: var(--font-antonio), Antonio, "Arial Narrow", sans-serif;
   font-weight: 700;
-  font-size: clamp(24px, 4vw, 34px);
+  font-size: clamp(22px, 2.6vw, 30px);
+  line-height: 1.05;
   letter-spacing: -0.5px;
   color: #fff;
+}
+
+.bodyCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
 }
 
 .body {
   margin: 0;
   font-weight: 400;
-  font-size: clamp(13px, 1.4vw, 15px);
-  line-height: 1.65;
+  font-size: clamp(12.5px, 1.05vw, 14px);
+  line-height: 1.6;
   color: #b3b3b3;
 }
 
 .button {
-  margin-top: 8px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 10px;
