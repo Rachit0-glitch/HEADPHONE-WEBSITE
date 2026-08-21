@@ -249,10 +249,11 @@
   transform: scale(1.12) rotate(45deg);
 }
 
-/* ---- Mobile: text block moves from vertically-centered-narrow to top-anchored-full-width, so the
-   headline can run large and bold across nearly the whole screen with the art layer visible below
-   it, matching the reference layout (logo+toggle row, big headline, art, Discover More pinned to
-   the very bottom) instead of a cramped centered column. */
+/* ---- Mobile: text block moves from vertically-centered-narrow to top-anchored-full-width. The art
+   layer stops cover-cropping (which, at the zoom needed to fill a portrait screen's full height, made
+   the headphone render WIDER than the screen itself — no side-by-side arrangement with text was ever
+   going to fit without cutting it off) and instead sits uncropped, full composition visible, in its
+   own band below the text — same stacked pattern as the product sections use on mobile. */
 @media (max-width: 880px) {
   .leftColumn {
     left: 20px;
@@ -260,16 +261,30 @@
     top: clamp(84px, 12vh, 110px);
     transform: none;
     max-width: none;
-    gap: 14px;
+    gap: 12px;
   }
 
   .headline {
-    font-size: clamp(34px, 13.5cqw, 90px);
-    line-height: clamp(32px, 12.5cqw, 84px);
+    font-size: clamp(30px, 12.5cqw, 58px);
+    line-height: clamp(28px, 11.5cqw, 54px);
   }
 
   .subtext {
-    font-size: 15px;
+    font-size: 14px;
+  }
+
+  /* 135% (not 100%) — still keeps the headphone (56.5-82.3% across the source) and arch (56.5-87.2%)
+     fully inside the visible window (12.96%-87.04% at this zoom), just fills more of the vertical gap
+     between the text block and Discover More than an uncropped 100%-width image would leave. Capped
+     in px, not left as a bare percentage: at tablet widths (this same query runs up to 880px) 135% of
+     viewport width scales the derived height (via aspect-ratio) enough to overlap Discover More — a
+     px ceiling keeps the band's absolute size sane regardless of how wide "mobile" gets, at the cost
+     of a little visible background margin on the sides past ~520px wide. */
+  .artLayer {
+    top: 46vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: clamp(400px, 135%, 700px);
   }
 
   .discover {
