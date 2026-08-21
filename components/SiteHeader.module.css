@@ -1,0 +1,164 @@
+/*
+  One shared nav, fixed to the viewport so it stays visible as the user scrolls from the Hero into
+  the Product section (previously each section had its own copy of the nav, which looked broken once
+  you actually scrolled through the page). A soft top-down scrim sits behind it so the same white
+  logo/nav text stays legible over the Hero's light photo AND the Product section's dark backdrop,
+  instead of needing a different color per section.
+*/
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  container-type: inline-size;
+  padding-bottom: 40px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.18) 60%, rgba(0, 0, 0, 0) 100%);
+  pointer-events: none;
+}
+
+.header > * {
+  pointer-events: auto;
+}
+
+.logo {
+  position: absolute;
+  left: clamp(20px, 4.883%, 75px);
+  top: clamp(16px, 3.5vh, 40px);
+  font-weight: 800;
+  font-size: clamp(20px, 2.083cqw, 32px);
+  letter-spacing: calc(1 / 1536 * 100cqw);
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.logo:hover {
+  color: #cfe3e0;
+  transform: translateY(-1px);
+}
+
+.nav {
+  position: absolute;
+  left: 28.451%;
+  top: clamp(20px, 4vh, 46px);
+  display: flex;
+  align-items: center;
+  gap: calc(46 / 1536 * 100cqw);
+}
+
+.navLink,
+.navLinkActive {
+  position: relative;
+  font-weight: 700;
+  font-size: clamp(12px, 1.107cqw, 17px);
+  color: #fff;
+  text-decoration: none;
+  white-space: nowrap;
+  padding-bottom: calc(9 / 1536 * 100cqw);
+  transition: color 0.25s ease;
+}
+
+.navLink::after,
+.navLinkActive::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: calc(3 / 1536 * 100cqw);
+  background: #fff;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* HOME's underline stays permanently on — this is a single-page site, so HOME is always "current." */
+.navLinkActive::after {
+  width: 100%;
+}
+
+.navLink::after {
+  width: 0%;
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+.navLink:hover {
+  color: #cfe3e0;
+}
+
+.shopPill {
+  position: absolute;
+  right: clamp(20px, 4.883%, 75px);
+  top: clamp(14px, 3.2vh, 30px);
+  height: clamp(38px, 4.883cqw, 50px);
+  border-radius: 999px;
+  background: #1e4f54;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(10 / 1536 * 100cqw);
+  padding: 0 calc(7 / 1536 * 100cqw) 0 calc(26 / 1536 * 100cqw);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: clamp(12px, 0.977cqw, 15px);
+  white-space: nowrap;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.shopPill:hover {
+  transform: translateY(-2px) scale(1.03);
+  background: #256168;
+  box-shadow: 0 10px 24px rgba(30, 79, 84, 0.35);
+}
+
+.shopPill:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.shopArrow {
+  width: clamp(28px, 2.474cqw, 38px);
+  height: clamp(28px, 2.474cqw, 38px);
+  border-radius: 50%;
+  background: #fff;
+  color: #1e4f54;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(14px, 1.302cqw, 20px);
+  flex-shrink: 0;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.shopPill:hover .shopArrow {
+  transform: translateX(3px) rotate(-8deg);
+}
+
+/* Entrance animation, same feel as the rest of the site's on-load motion. */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.logo,
+.nav,
+.shopPill {
+  animation: fadeInDown 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.nav {
+  animation-delay: 0.08s;
+}
+
+.shopPill {
+  animation-delay: 0.16s;
+}

@@ -1,14 +1,6 @@
 import Image from "next/image";
 import styles from "./HeroSection.module.css";
 
-const NAV_LINKS = [
-  { label: "HOME", href: "/" },
-  { label: "PRODUCTS", href: "#" },
-  { label: "ABOUT", href: "#" },
-  { label: "JOURNAL", href: "#" },
-  { label: "CONTACT", href: "#" },
-];
-
 export default function HeroSection() {
   return (
     <div className={styles.wrap}>
@@ -49,30 +41,6 @@ export default function HeroSection() {
           className={`${styles.layer} ${styles.headphone}`}
         />
       </div>
-
-      {/* ---- UI chrome: pinned to the real viewport edges, never cropped, regardless of screen ratio ---- */}
-      <a href="/" className={`${styles.logo} ${styles.fadeInDown}`}>
-        SONIC&deg;
-      </a>
-
-      <nav className={`${styles.nav} ${styles.fadeInDown}`} aria-label="Primary">
-        {NAV_LINKS.map((link) => (
-          <a
-            key={link.label}
-            href={link.href}
-            className={link.label === "HOME" ? styles.navLinkActive : styles.navLink}
-          >
-            {link.label}
-          </a>
-        ))}
-      </nav>
-
-      <a href="#" className={`${styles.shopPill} ${styles.fadeInDown}`}>
-        <span>SHOP NOW</span>
-        <span className={styles.shopArrow} aria-hidden="true">
-          &rarr;
-        </span>
-      </a>
 
       {/* Headline + divider + subtext grouped into one flex column, vertically centered as a unit —
           spacing between them always follows the headline's REAL rendered height, so they can never

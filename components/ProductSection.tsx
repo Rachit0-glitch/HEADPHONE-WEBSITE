@@ -1,14 +1,6 @@
 import Image from "next/image";
 import styles from "./ProductSection.module.css";
 
-const NAV_LINKS = [
-  { label: "HOME", href: "/" },
-  { label: "PRODUCTS", href: "#" },
-  { label: "ABOUT", href: "#" },
-  { label: "JOURNAL", href: "#" },
-  { label: "CONTACT", href: "#" },
-];
-
 const SOCIAL_LINKS = [
   { name: "Facebook", src: "/product/social-facebook.png" },
   { name: "Instagram", src: "/product/social-instagram.png" },
@@ -52,30 +44,7 @@ export default function ProductSection() {
         <Image src="/product/sphere-bottom-center.png" alt="" fill sizes="4vw" />
       </div>
 
-      {/* ---- UI chrome ---- */}
-      <a href="/" className={styles.logo}>
-        SONIC&deg;
-      </a>
-
-      <nav className={styles.nav} aria-label="Primary">
-        {NAV_LINKS.map((link) => (
-          <a
-            key={link.label}
-            href={link.href}
-            className={link.label === "HOME" ? styles.navLinkActive : styles.navLink}
-          >
-            {link.label}
-          </a>
-        ))}
-      </nav>
-
-      <a href="#" className={styles.shopPill}>
-        <span>SHOP NOW</span>
-        <span className={styles.shopArrow} aria-hidden="true">
-          &rarr;
-        </span>
-      </a>
-
+      {/* ---- UI chrome (nav/logo/shop-pill now live once in the shared, fixed SiteHeader) ---- */}
       <div className={styles.leftColumn}>
         <h1 className={styles.headline}>
           <span className={styles.bright}>PAINT</span>
@@ -97,10 +66,14 @@ export default function ProductSection() {
       </div>
 
       <a href="#" className={styles.scrollUp} aria-label="Scroll up">
-        &uarr;
+        <span className={styles.scrollArrowUp} aria-hidden="true">
+          &rarr;
+        </span>
       </a>
       <a href="#" className={styles.scrollDown} aria-label="Scroll down">
-        &darr;
+        <span className={styles.scrollArrowDown} aria-hidden="true">
+          &rarr;
+        </span>
       </a>
 
       <div className={styles.followRow}>

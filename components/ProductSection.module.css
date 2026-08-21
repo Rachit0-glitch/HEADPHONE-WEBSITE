@@ -130,126 +130,6 @@
   object-fit: contain;
 }
 
-/* ---- Nav ---- */
-
-.logo {
-  position: absolute;
-  z-index: 10;
-  left: clamp(20px, 4.904%, 75px);
-  top: clamp(16px, 3.5vh, 40px);
-  font-weight: 800;
-  font-size: clamp(20px, 2.083cqw, 32px);
-  letter-spacing: calc(1 / 1536 * 100cqw);
-  color: #fff;
-  text-decoration: none;
-  cursor: pointer;
-  transition: color 0.25s ease, transform 0.25s ease;
-}
-
-.logo:hover {
-  color: #cfcabf;
-  transform: translateY(-1px);
-}
-
-.nav {
-  position: absolute;
-  z-index: 10;
-  left: 28.469%;
-  top: clamp(20px, 4vh, 46px);
-  display: flex;
-  align-items: center;
-  gap: calc(46 / 1536 * 100cqw);
-}
-
-.navLink,
-.navLinkActive {
-  position: relative;
-  font-weight: 700;
-  font-size: clamp(12px, 1.107cqw, 17px);
-  color: #fff;
-  text-decoration: none;
-  white-space: nowrap;
-  padding-bottom: calc(9 / 1536 * 100cqw);
-  transition: color 0.25s ease;
-}
-
-.navLink::after,
-.navLinkActive::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: calc(3 / 1536 * 100cqw);
-  background: #fff;
-  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* HOME's underline is always on — matches the Hero section's "permanently current page" nav mark. */
-.navLinkActive::after {
-  width: 100%;
-}
-
-.navLink::after {
-  width: 0%;
-}
-
-.navLink:hover::after {
-  width: 100%;
-}
-
-.navLink:hover {
-  color: #cfcabf;
-}
-
-.shopPill {
-  position: absolute;
-  z-index: 10;
-  right: clamp(28px, 5.084%, 100px);
-  top: clamp(14px, 3.2vh, 30px);
-  height: clamp(38px, 4.883cqw, 50px);
-  border-radius: 999px;
-  background: #000;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: calc(10 / 1536 * 100cqw);
-  padding: 0 calc(7 / 1536 * 100cqw) 0 calc(26 / 1536 * 100cqw);
-  text-decoration: none;
-  font-weight: 700;
-  font-size: clamp(12px, 0.977cqw, 15px);
-  white-space: nowrap;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background 0.3s ease;
-}
-
-.shopPill:hover {
-  transform: translateY(-2px) scale(1.03);
-  background: #1a1a1a;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
-}
-
-.shopPill:active {
-  transform: translateY(0) scale(0.98);
-}
-
-.shopArrow {
-  width: clamp(28px, 2.474cqw, 38px);
-  height: clamp(28px, 2.474cqw, 38px);
-  border-radius: 50%;
-  background: #fff;
-  color: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: clamp(14px, 1.302cqw, 20px);
-  flex-shrink: 0;
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.shopPill:hover .shopArrow {
-  transform: translateX(3px) rotate(-8deg);
-}
-
 /* ---- Left text column ---- */
 
 .leftColumn {
@@ -302,6 +182,10 @@
 
 /* ---- Scroll up/down ---- */
 
+/* Same "→" glyph as the Hero/Shop-pill arrows, just rotated — keeps every arrow icon on the site the
+   same shape/weight instead of mixing in the thinner default ↑/↓ glyphs, and sized at the same
+   ~50% of its circle's diameter that the Hero's arrow circles use (these were previously much smaller
+   relative to their circle). */
 .scrollUp,
 .scrollDown {
   position: absolute;
@@ -315,10 +199,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: clamp(16px, 1.6cqw, 26px);
   text-decoration: none;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease;
+}
+
+.scrollArrowUp,
+.scrollArrowDown {
+  font-weight: 700;
+  font-size: clamp(24px, 2.5cqw, 42px);
+  line-height: 1;
+}
+
+.scrollArrowUp {
+  transform: rotate(-90deg);
+}
+
+.scrollArrowDown {
+  transform: rotate(90deg);
 }
 
 .scrollUp {

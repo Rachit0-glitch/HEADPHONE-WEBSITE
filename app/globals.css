@@ -7,4 +7,15 @@
 html,
 body {
   background: #ededeb;
+  overflow-x: hidden;
+}
+
+/* The page still scrolls vertically (two full-height sections) — this only hides the browser's
+   native scrollbar chrome so it doesn't sit as a visible bar down the side of the site. */
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
