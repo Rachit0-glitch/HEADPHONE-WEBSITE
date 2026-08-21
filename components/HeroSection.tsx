@@ -42,6 +42,32 @@ export default function HeroSection() {
         />
       </div>
 
+      {/* Mobile/tablet-only art layer: a dedicated portrait (941x1672) background shot, not a crop of
+          the desktop 16:9 photo — cover-cropping that wide photo to fill a portrait screen required
+          zooming in so far the headphone rendered wider than the screen itself. This background was
+          composed portrait from the start, so headphone + arch sit on top of it uncropped, positioned
+          over the shadow already baked into the shot. See the media query in the CSS for why this and
+          `.artLayer` are simply swapped by breakpoint rather than one layer serving both. */}
+      <div className={styles.mobileArtLayer} aria-hidden="true">
+        <Image src="/hero/background-mobile.png" alt="" fill priority className={styles.mobileBg} sizes="100vw" />
+        <Image
+          src="/hero/arch.png"
+          alt=""
+          width={545}
+          height={707}
+          priority
+          className={`${styles.mobileLayer} ${styles.mobileArch}`}
+        />
+        <Image
+          src="/hero/headphone.png"
+          alt=""
+          width={500}
+          height={671}
+          priority
+          className={`${styles.mobileLayer} ${styles.mobileHeadphone}`}
+        />
+      </div>
+
       {/* Headline + divider + subtext grouped into one flex column, vertically centered as a unit —
           spacing between them always follows the headline's REAL rendered height, so they can never
           overlap no matter how large the responsive font-size gets. */}

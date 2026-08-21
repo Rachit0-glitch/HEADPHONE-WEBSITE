@@ -53,6 +53,12 @@
   height: auto !important; /* next/image sets an explicit px height; let width-based % scaling drive it */
 }
 
+/* ---- Mobile/tablet art layer (a separate portrait 941x1672 shot, not shown here — see the media
+   query at the bottom) — hidden by default, this file's `.artLayer` is what desktop actually sees. */
+.mobileArtLayer {
+  display: none;
+}
+
 /* Stacking order matches the live Figma file, bottom to top: background -> wave-left -> arch ->
    wave-right -> headphones. wave-right sitting ABOVE the arch (below the headphones) is intentional —
    a manual fix made directly in Figma, not the original build order. */
@@ -249,11 +255,11 @@
   transform: scale(1.12) rotate(45deg);
 }
 
-/* ---- Mobile: text block moves from vertically-centered-narrow to top-anchored-full-width. The art
-   layer stops cover-cropping (which, at the zoom needed to fill a portrait screen's full height, made
-   the headphone render WIDER than the screen itself — no side-by-side arrangement with text was ever
-   going to fit without cutting it off) and instead sits uncropped, full composition visible, in its
-   own band below the text — same stacked pattern as the product sections use on mobile. */
+/* ---- Mobile: text block moves from vertically-centered-narrow to top-anchored-full-width. The
+   desktop `.artLayer` (a 16:9 photo, cover-cropped) is swapped out entirely for `.mobileArtLayer` — a
+   dedicated portrait (941x1672) shot with headphone + arch composited on top of it fresh, positioned
+   over the shadow already in the photo, so nothing needs the aggressive cover-zoom that made the
+   desktop photo's headphone render wider than a phone screen. */
 @media (max-width: 880px) {
   .leftColumn {
     left: 20px;
@@ -273,18 +279,41 @@
     font-size: 14px;
   }
 
-  /* 135% (not 100%) — still keeps the headphone (56.5-82.3% across the source) and arch (56.5-87.2%)
-     fully inside the visible window (12.96%-87.04% at this zoom), just fills more of the vertical gap
-     between the text block and Discover More than an uncropped 100%-width image would leave. Capped
-     in px, not left as a bare percentage: at tablet widths (this same query runs up to 880px) 135% of
-     viewport width scales the derived height (via aspect-ratio) enough to overlap Discover More — a
-     px ceiling keeps the band's absolute size sane regardless of how wide "mobile" gets, at the cost
-     of a little visible background margin on the sides past ~520px wide. */
   .artLayer {
-    top: 46vh;
-    left: 50%;
-    transform: translateX(-50%);
-    width: clamp(400px, 135%, 700px);
+    display: none;
+  }
+
+  .mobileArtLayer {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .mobileBg {
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .mobileLayer {
+    position: absolute;
+    height: auto !important;
+  }
+
+  /* Positioned over the shadow baked into background-mobile.png — arch anchored slightly up/left of
+     the headphone, matching the desktop pair's own relative offset, just rescaled into this corner. */
+  .mobileArch {
+    left: 58%;
+    top: 49.7%;
+    width: 36.9%;
+    z-index: 2;
+  }
+
+  .mobileHeadphone {
+    left: 58%;
+    top: 60%;
+    width: 31%;
+    z-index: 3;
   }
 
   .discover {
