@@ -14,8 +14,8 @@
 .wrap {
   position: relative;
   container-type: inline-size;
-  width: 100vw;
-  height: 100dvh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   background: radial-gradient(circle at center, #8a8272 0%, #4a4636 55%, #242019 100%);
   font-family: var(--font-montserrat), Montserrat, "Helvetica Neue", Arial, sans-serif;
@@ -190,7 +190,7 @@
 /* Same "→" glyph as the Hero/Shop-pill arrows, just rotated — keeps every arrow icon on the site the
    same shape/weight instead of mixing in the thinner default ↑/↓ glyphs. Sized smaller/quieter than
    the first pass — these read as a small secondary wayfinding cue, not a second CTA the size of
-   Shop Now. Purely decorative (no href/onClick) until the scroll animation lands. */
+   Shop Now. Purely decorative (no href/onClick) — the ProductTransition wrapper owns scroll now. */
 .scrollUp,
 .scrollDown {
   position: absolute;

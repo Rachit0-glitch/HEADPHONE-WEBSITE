@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "./ProductSection.module.css";
+import styles from "./ProductSectionBlack.module.css";
 
 const SOCIAL_LINKS = [
   { name: "Facebook", src: "/product/social-facebook.png" },
@@ -8,7 +8,7 @@ const SOCIAL_LINKS = [
   { name: "YouTube", src: "/product/social-youtube.png" },
 ];
 
-export default function ProductSection() {
+export default function ProductSectionBlack() {
   return (
     <div className={styles.wrap}>
       {/* ---- Floating spheres + product photo, positioned as percentages of the 1672x941 Figma
@@ -65,8 +65,8 @@ export default function ProductSection() {
         </p>
       </div>
 
-      {/* Decorative only for now — the scroll animation lands in a later pass, so these deliberately
-          aren't links/buttons yet (nothing in this section should be clickable). */}
+      {/* Decorative only for now — no href/onClick, since the scroll-scrub transition (ProductTransition)
+          now owns Blue<->Black scrolling. */}
       <div className={styles.scrollUp} aria-hidden="true">
         <span className={styles.scrollArrowUp}>&rarr;</span>
       </div>

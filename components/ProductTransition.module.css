@@ -1,0 +1,32 @@
+/*
+  Blue is the default Product section; scrolling past it doesn't navigate to a new section in the
+  normal sense — instead Blue scrolls up and out while Black rises up from below to take its place,
+  both driven directly by scroll position (see ProductTransition.tsx).
+
+  Mechanism: `.wrapper` is taller than one viewport (100dvh to hold the panel in place + extra scroll
+  distance to scrub through), and `.sticky` pins itself to the top of the viewport for as long as
+  `.wrapper` is being scrolled through. Both `.panel`s are absolutely stacked inside it, full-bleed,
+  and their `transform: translateY(...)` is set directly from JS scroll progress (0 -> 1) rather than
+  a fixed-duration CSS animation, so the motion always matches the scrollbar exactly — scrub forward,
+  scrub back, stop halfway, all just work.
+*/
+
+.wrapper {
+  position: relative;
+  /* height set inline from SCRUB_VIEWPORTS in ProductTransition.tsx */
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.panel {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}

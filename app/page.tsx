@@ -1,13 +1,13 @@
 import SiteHeader from "@/components/SiteHeader";
 import HeroSection from "@/components/HeroSection";
-import ProductSection from "@/components/ProductSection";
+import ProductTransition from "@/components/ProductTransition";
 
 export default function Home() {
   return (
     <main>
       <SiteHeader />
       <HeroSection />
-      <ProductSection />
+      <ProductTransition />
     </main>
   );
 }
