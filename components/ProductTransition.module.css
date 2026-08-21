@@ -14,7 +14,7 @@
 
 .wrapper {
   position: relative;
-  /* height set inline from SCRUB_VIEWPORTS in ProductTransition.tsx */
+  height: 215dvh; /* fallback for the instant before JS measures window.innerHeight and takes over in px */
 }
 
 .sticky {

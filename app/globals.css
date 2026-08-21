@@ -6,14 +6,26 @@
 
 html,
 body {
-  background: #ededeb;
-  overflow-x: hidden;
+  /* Dark to match the Product section's resting (Black) background — this is a backstop only; with
+     ProductTransition's height math exact, nothing should ever actually reveal it. Deliberately not
+     the Hero's cream #ededeb, since the Hero paints its own full-bleed background regardless of what
+     sits behind it, so this choice can't affect how the Hero looks. */
+  background: #242019;
 }
+
+/* NOT `overflow-x: hidden` on html/body: setting overflow on either turns it into its own scroll
+   container, which breaks ProductTransition's `position: sticky` (sticky needs its containing block
+   to be the actual viewport, not a synthetic html/body scroller). Every element that actually bleeds
+   past 100vw (Hero's cover-scaled art layer, etc.) already clips itself via its own
+   `overflow: hidden`, so this was never load-bearing — confirmed no horizontal scrollbar without it. */
 
 /* The page still scrolls vertically (two full-height sections) — this only hides the browser's
    native scrollbar chrome so it doesn't sit as a visible bar down the side of the site. */
 html {
   scrollbar-width: none;
+  /* Stops rubber-band/elastic overscroll (trackpads, touch devices) from bouncing past the end of the
+     page and revealing the body background there — the exact "white 3rd section" flash this guards. */
+  overscroll-behavior-y: none;
 }
 
 html::-webkit-scrollbar {

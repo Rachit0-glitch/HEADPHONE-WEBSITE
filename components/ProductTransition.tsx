@@ -22,8 +22,15 @@ export default function ProductTransition() {
       const sticky = stickyRef.current;
       if (!wrapper || !sticky) return;
 
+      // Wrapper height is set in px from this same window.innerHeight (below), rather than a `dvh`
+      // CSS string computed independently by the browser — keeping both sides of this math on the
+      // exact same number is what guarantees progress reaches exactly 1.0 at exactly the last
+      // scrollable pixel, with zero leftover gap past the end of the page.
+      const viewportH = window.innerHeight;
+      wrapper.style.height = `${viewportH * (1 + SCRUB_VIEWPORTS)}px`;
+
       const rect = wrapper.getBoundingClientRect();
-      const scrubDistance = wrapper.offsetHeight - window.innerHeight;
+      const scrubDistance = wrapper.offsetHeight - viewportH;
       const progress = scrubDistance > 0 ? Math.min(Math.max(-rect.top / scrubDistance, 0), 1) : 0;
 
       // One custom property, read by both ProductSectionBlue and ProductSectionBlack's CSS (opacity
@@ -49,7 +56,7 @@ export default function ProductTransition() {
   }, []);
 
   return (
-    <div ref={wrapperRef} className={styles.wrapper} style={{ height: `${100 + SCRUB_VIEWPORTS * 100}dvh` }}>
+    <div ref={wrapperRef} className={styles.wrapper}>
       <div ref={stickyRef} className={styles.sticky} style={{ "--product-progress": 0 } as React.CSSProperties}>
         <ProductSectionBlue />
         <ProductSectionBlack />
