@@ -1,0 +1,243 @@
+/*
+  Background swapped to your regenerated 16:9 photo (1672x941 — was 1536x1024/3:2), which crops far
+  less on real (16:9-ish) screens. Split into two layers so nothing ever gets clipped:
+
+  1. `.artLayer` — background photo + soundwaves + arch + headphones. Purely decorative, so it's
+     allowed to CROP like a normal full-bleed hero photo: cover-scaled (`width: max(100vw, 100dvh *
+     1672/941)`, centered) to always fill the viewport with zero gray bars, at the cost of losing a
+     little off the top/bottom (or sides) on aspect ratios far from 16:9 (now a much smaller loss than
+     before, since most real screens ARE close to 16:9). Overlay positions below were re-measured
+     directly against the new photo (a fresh 100px grid drawn over it) — not just carried over from the
+     old 3:2 numbers.
+  2. Everything else (logo, nav, headline, CTA, "discover more") is pinned directly to `.wrap` — the
+     real viewport box — using safe `clamp()` padding from the actual top/bottom/left/right edges, NOT
+     a percentage of the croppable art box. That's what keeps the nav and "discover more" visible on
+     every screen ratio: they're anchored to the screen itself, not to a box that gets clipped.
+
+  `.wrap` is a CSS container (`container-type: inline-size`), so every `cqw` unit below is 1% of the
+  actual viewport width — used for all font-sizes/spacing so type and icons scale smoothly with the
+  window, independent of whatever the art layer is doing.
+*/
+
+.wrap {
+  position: relative;
+  container-type: inline-size;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  background: #ededeb;
+  font-family: var(--font-montserrat), Montserrat, "Helvetica Neue", Arial, sans-serif;
+}
+
+.artLayer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: max(100vw, calc(100dvh * 1672 / 941));
+  aspect-ratio: 1672 / 941;
+}
+
+.bg {
+  object-fit: cover;
+  z-index: 0;
+}
+
+.layer {
+  position: absolute;
+  height: auto !important; /* next/image sets an explicit px height; let width-based % scaling drive it */
+}
+
+/* Stacking order matches the live Figma file, bottom to top: background -> wave-left -> arch ->
+   wave-right -> headphones. wave-right sitting ABOVE the arch (below the headphones) is intentional —
+   a manual fix made directly in Figma, not the original build order. Positions below are read directly
+   from the live Figma file (1672x941 canvas) after your manual hand-tuning — not recomputed. */
+.waveLeft {
+  left: 23.325%;
+  top: 21.786%;
+  width: 33.493%;
+  z-index: 1;
+}
+
+.arch {
+  left: 56.459%;
+  top: 9.671%;
+  width: 30.742%;
+  z-index: 2;
+}
+
+.waveRight {
+  left: 70.156%;
+  top: 25.505%;
+  width: 29.844%;
+  z-index: 3;
+}
+
+.headphone {
+  left: 56.459%;
+  top: 18.066%;
+  width: 25.837%;
+  z-index: 4;
+}
+
+/* ---- UI chrome — pinned to the real viewport, always visible ---- */
+
+.logo {
+  position: absolute;
+  z-index: 5;
+  left: clamp(20px, 4.883%, 75px);
+  top: clamp(16px, 3.5vh, 40px);
+  font-weight: 800;
+  font-size: clamp(20px, 2.083cqw, 32px);
+  letter-spacing: calc(1 / 1536 * 100cqw);
+  color: #171717;
+}
+
+.nav {
+  position: absolute;
+  z-index: 5;
+  left: 28.451%;
+  top: clamp(20px, 4vh, 46px);
+  display: flex;
+  align-items: center;
+  gap: calc(46 / 1536 * 100cqw);
+}
+
+.navLink,
+.navLinkActive {
+  font-weight: 700;
+  font-size: clamp(12px, 1.107cqw, 17px);
+  color: #171717;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.navLinkActive {
+  position: relative;
+  padding-bottom: calc(9 / 1536 * 100cqw);
+}
+
+.navLinkActive::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(3 / 1536 * 100cqw);
+  background: #1e4f54;
+}
+
+.shopPill {
+  position: absolute;
+  z-index: 5;
+  right: clamp(20px, 4.883%, 75px);
+  top: clamp(14px, 3.2vh, 30px);
+  height: clamp(38px, 4.883cqw, 50px);
+  border-radius: 999px;
+  background: #1e4f54;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(10 / 1536 * 100cqw);
+  padding: 0 calc(7 / 1536 * 100cqw) 0 calc(26 / 1536 * 100cqw);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: clamp(12px, 0.977cqw, 15px);
+  white-space: nowrap;
+}
+
+.shopArrow {
+  width: clamp(28px, 2.474cqw, 38px);
+  height: clamp(28px, 2.474cqw, 38px);
+  border-radius: 50%;
+  background: #fff;
+  color: #1e4f54;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(14px, 1.302cqw, 20px);
+  flex-shrink: 0;
+}
+
+/* ---- Headline ---- */
+
+.headline {
+  position: absolute;
+  z-index: 5;
+  left: clamp(20px, 4.753%, 73px);
+  top: 16%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-antonio), Antonio, "Arial Narrow", sans-serif;
+  font-weight: 700;
+  font-size: clamp(40px, 9.115cqw, 140px);
+  line-height: clamp(38px, 8.724cqw, 134px);
+  letter-spacing: clamp(-1px, -0.195cqw, -3px);
+}
+
+.headline .dark {
+  color: #171717;
+}
+
+.headline .teal {
+  color: #1e4f54;
+}
+
+.divider {
+  position: absolute;
+  z-index: 5;
+  left: clamp(20px, 5.859%, 90px);
+  top: 68%;
+  width: clamp(30px, 4.753cqw, 73px);
+  height: 4px;
+  background: #1e4f54;
+}
+
+.subtext {
+  position: absolute;
+  z-index: 5;
+  left: clamp(20px, 5.599%, 86px);
+  top: 70%;
+  margin: 0;
+  font-weight: 500;
+  font-size: clamp(13px, 1.237cqw, 19px);
+  line-height: 1.25;
+  color: #000;
+}
+
+/* ---- Discover more — pinned to the bottom-right corner, never pushed off-screen ---- */
+
+.discover {
+  position: absolute;
+  z-index: 5;
+  right: clamp(20px, 6.25%, 96px);
+  bottom: clamp(20px, 4.5vh, 56px);
+  display: flex;
+  align-items: center;
+  gap: calc(16 / 1536 * 100cqw);
+  text-decoration: none;
+}
+
+.discoverText {
+  font-weight: 700;
+  font-size: clamp(13px, 1.302cqw, 20px);
+  color: #fff;
+  white-space: nowrap;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); /* stays legible regardless of what the art layer crops behind it */
+}
+
+.discoverCircle {
+  width: clamp(32px, 3.125cqw, 48px);
+  height: clamp(32px, 3.125cqw, 48px);
+  border-radius: 50%;
+  border: 1.5px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: clamp(13px, 1.302cqw, 20px);
+  flex-shrink: 0;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+}
