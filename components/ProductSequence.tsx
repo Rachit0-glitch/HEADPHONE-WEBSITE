@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import styles from "./ProductSequence.module.css";
 
@@ -22,6 +22,7 @@ export default function ProductSequence({ states, scrubViewportsPerTransition = 
   const stickyRef = useRef<HTMLDivElement>(null);
   const lastTargetIndex = useRef(-1);
   const stateCount = states.length;
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     let ticking = false;
@@ -55,6 +56,7 @@ export default function ProductSequence({ states, scrubViewportsPerTransition = 
       const targetIndex = Math.round(rawProgress);
       if (targetIndex === lastTargetIndex.current) return;
       lastTargetIndex.current = targetIndex;
+      setActiveIndex(targetIndex);
 
       for (let i = 0; i < stateCount; i++) {
         // entrance_i flips on once we've reached state i or later; exit_i flips on once we've moved
@@ -90,6 +92,17 @@ export default function ProductSequence({ states, scrubViewportsPerTransition = 
     <div ref={wrapperRef} className={styles.wrapper}>
       <div ref={stickyRef} className={styles.sticky}>
         {states}
+        {/* Replaces each section's old scroll-up/down buttons: one shared rail showing which state
+            is active via length/opacity, not numbers — mix-blend-mode keeps it legible over any of
+            the four background colors without per-variant color overrides. */}
+        <div className={styles.progressRail} aria-hidden="true">
+          {states.map((_, i) => (
+            <span
+              key={i}
+              className={i === activeIndex ? `${styles.progressDot} ${styles.progressDotActive}` : styles.progressDot}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

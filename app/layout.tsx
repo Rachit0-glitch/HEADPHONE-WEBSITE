@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Antonio, Montserrat } from "next/font/google";
+import DisclaimerGate from "@/components/DisclaimerGate";
 import LoadingScreen from "@/components/LoadingScreen";
 import "./globals.css";
 
@@ -26,8 +27,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${antonio.variable} ${montserrat.variable}`}>
       <body>
-        <LoadingScreen />
-        {children}
+        <DisclaimerGate>
+          <LoadingScreen />
+          {children}
+        </DisclaimerGate>
       </body>
     </html>
   );

@@ -4,6 +4,14 @@
   padding: 0;
 }
 
+/* Single source of truth for the product sections' body copy sizes (the "subtext" line under each
+   headline and the descriptive paragraph below it) — Blue/Black/Green/Beige all read these same two
+   variables so they can never drift apart from each other again. */
+:root {
+  --product-subtext-size: clamp(12px, min(1.136cqw, 2.02vh), 19px);
+  --product-paragraph-size: clamp(12px, min(0.957cqw, 1.7vh), 16px);
+}
+
 html,
 body {
   /* Dark to match the Product section's resting (Black) background — this is a backstop only; with

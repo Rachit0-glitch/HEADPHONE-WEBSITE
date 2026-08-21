@@ -67,15 +67,6 @@ export default function ProductSectionBlack() {
         </p>
       </div>
 
-      {/* Decorative only for now — no href/onClick, since the scroll-scrub transition (ProductTransition)
-          now owns Blue<->Black scrolling. */}
-      <div className={styles.scrollUp} aria-hidden="true">
-        <span className={styles.scrollArrowUp}>&rarr;</span>
-      </div>
-      <div className={styles.scrollDown} aria-hidden="true">
-        <span className={styles.scrollArrowDown}>&rarr;</span>
-      </div>
-
       <div className={styles.followRow}>
         <span className={styles.followText}>Follow Us</span>
         <div className={styles.socialIcons}>

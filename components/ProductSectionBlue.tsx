@@ -66,21 +66,12 @@ export default function ProductSectionBlue() {
         </p>
       </div>
 
-      {/* Decorative only — no href/onClick, since the scroll-scrub transition (ProductTransition)
-          owns scrolling between Blue and Black. */}
-      <div className={styles.scrollUp} aria-hidden="true">
-        <span className={styles.scrollArrowUp}>&rarr;</span>
-      </div>
-      <div className={styles.scrollDown} aria-hidden="true">
-        <span className={styles.scrollArrowDown}>&rarr;</span>
-      </div>
-
       <div className={styles.followRow}>
         <span className={styles.followText}>Follow Us</span>
         <div className={styles.socialIcons}>
           {SOCIAL_LINKS.map((social) => (
             <div key={social.name} className={styles.socialIcon} aria-hidden="true">
-              <Image src={social.src} alt="" width={24} height={24} className={styles.socialIconGlyph} />
+              <Image src={social.src} alt="" fill sizes="4vw" />
             </div>
           ))}
         </div>

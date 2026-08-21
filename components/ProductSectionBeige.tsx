@@ -14,8 +14,8 @@ export default function ProductSectionBeige() {
   return (
     <div className={styles.wrap}>
       {/* Floating spheres + product photo, positioned as percentages of the 1672x941 Figma canvas —
-          this export's icons/scroll-arrows are pre-composited onto their own circle (like Black's),
-          so they're placed as images directly rather than vector circle + glyph. */}
+          this export's social icons are pre-composited onto their own circle (like Black's), so
+          they're placed as images directly rather than vector circle + glyph. */}
       <div className={styles.sphereGlass} aria-hidden="true">
         <Image src="/product-beige/sphere-glass.png" alt="" fill sizes="10vw" />
       </div>
@@ -65,14 +65,6 @@ export default function ProductSectionBeige() {
           Engineered for immersive sound and crafted for comfort. Our headphones deliver pure audio,
           powerful bass, and total focus &mdash; anywhere.
         </p>
-      </div>
-
-      {/* Decorative only — no href/onClick, since ProductSequence owns scrolling between variants. */}
-      <div className={styles.scrollUp} aria-hidden="true">
-        <Image src="/product-beige/scroll-up.png" alt="" fill sizes="4vw" />
-      </div>
-      <div className={styles.scrollDown} aria-hidden="true">
-        <Image src="/product-beige/scroll-down.png" alt="" fill sizes="4vw" />
       </div>
 
       <div className={styles.followRow}>
