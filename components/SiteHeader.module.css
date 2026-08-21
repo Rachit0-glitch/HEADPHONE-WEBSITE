@@ -169,9 +169,11 @@
   ---- Mobile nav ----
   Below 880px the desktop row (logo + 5 links + Shop Now pill) has nowhere near enough width —
   the nav's own left offset (28.451%) plus its links start overlapping the Shop Now pill well
-  before 768px. Below that width, `.nav` and `.shopPill` are hidden and replaced with a hamburger
-  toggle that opens `.mobileNav`, a full-screen bold panel matching the disclaimer/loading-screen's
-  dark, high-contrast visual language rather than a cramped dropdown.
+  before 768px. Below that width, the link row collapses into a hamburger toggle that opens
+  `.mobileNav`, a full-screen bold panel matching the disclaimer/loading-screen's dark, high-contrast
+  visual language rather than a cramped dropdown. Shop Now itself stays put next to the toggle — it
+  only disappears over the (unscrolled) Hero, same as the reference: logo + toggle alone on the light
+  Hero row, logo + Shop Now + toggle once scrolled onto a dark section.
 */
 .menuToggle {
   display: none;
@@ -270,13 +272,34 @@
 }
 
 @media (max-width: 880px) {
-  .nav,
-  .shopPill {
+  .nav {
     display: none;
   }
 
   .menuToggle {
     display: flex;
+  }
+
+  /* Hidden by default (matches the Hero row in the reference: logo + toggle only), shown once
+     `.scrolled` (matches the Product-section row: logo + Shop Now + toggle). Repositioned to sit
+     left of the toggle instead of at its own independent right offset, so the two don't collide. */
+  .shopPill {
+    display: none;
+    right: 66px;
+    top: clamp(14px, 3.2vh, 30px);
+    height: 34px;
+    padding: 0 4px 0 16px;
+    font-size: 12px;
+  }
+
+  .scrolled .shopPill {
+    display: flex;
+  }
+
+  .shopArrow {
+    width: 26px;
+    height: 26px;
+    font-size: 13px;
   }
 }
 

@@ -23,6 +23,12 @@
   align-items: safe center;
 }
 
+@media (max-width: 760px) {
+  .overlay {
+    padding: 16px;
+  }
+}
+
 /* Wide-and-short, not a tall single column: the brand mark + title sit in a left rail, the paragraph
    + button in a wider right column, so the card reads as a horizontal panel even with ~190 words of
    body copy. Falls back to stacked columns only below ~760px, where there isn't room for two. */
@@ -44,6 +50,29 @@
 @media (max-width: 760px) {
   .panel {
     grid-template-columns: 1fr;
+    row-gap: 14px;
+    padding: 24px clamp(20px, 6vw, 32px);
+  }
+
+  .brandCol {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .body {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .button {
+    height: 46px;
+    align-self: stretch;
+    justify-content: center;
   }
 }
 

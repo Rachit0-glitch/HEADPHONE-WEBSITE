@@ -248,3 +248,32 @@
   color: #1e4f54;
   transform: scale(1.12) rotate(45deg);
 }
+
+/* ---- Mobile: text block moves from vertically-centered-narrow to top-anchored-full-width, so the
+   headline can run large and bold across nearly the whole screen with the art layer visible below
+   it, matching the reference layout (logo+toggle row, big headline, art, Discover More pinned to
+   the very bottom) instead of a cramped centered column. */
+@media (max-width: 880px) {
+  .leftColumn {
+    left: 20px;
+    right: 20px;
+    top: clamp(84px, 12vh, 110px);
+    transform: none;
+    max-width: none;
+    gap: 14px;
+  }
+
+  .headline {
+    font-size: clamp(34px, 13.5cqw, 90px);
+    line-height: clamp(32px, 12.5cqw, 84px);
+  }
+
+  .subtext {
+    font-size: 15px;
+  }
+
+  .discover {
+    right: 20px;
+    bottom: clamp(16px, 3.5vh, 32px);
+  }
+}

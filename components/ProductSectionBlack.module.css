@@ -174,19 +174,6 @@
   color: #141414;
 }
 
-/* Modest, proportional bump for phones/tablets — the column widens and the font scales with it at
-   the same ratio, so line-wrapping behavior (verified to fit without overflow at 375px) can't change,
-   just reads a bit bolder/larger. */
-@media (max-width: 760px) {
-  .leftColumn {
-    max-width: 35%;
-  }
-  .headline {
-    font-size: clamp(28px, min(8.5cqw, 13.71vh), 129px);
-    line-height: clamp(28px, min(8.13cqw, 13.07vh), 123px);
-  }
-}
-
 .subtext {
   margin: 0;
   font-weight: 500;
@@ -245,4 +232,100 @@
 
 .socialIcon img {
   object-fit: cover;
+}
+
+/*
+  ---- Mobile: full-width top text block, spheres+headphone re-clustered into one big centered band
+  below it, Follow Us centered at the bottom — matching the reference layout instead of the desktop
+  side-by-side arrangement (which left the text cramped into a ~33%-wide column). Sphere positions
+  are a linear remap of their original percentages onto the new headphone box (same relative
+  arrangement around the product photo, just scaled/shifted to the new box) rather than hand-guessed.
+*/
+@media (max-width: 880px) {
+  .leftColumn {
+    left: 20px;
+    right: 20px;
+    top: clamp(84px, 12vh, 104px);
+    max-width: none;
+    gap: 12px;
+  }
+
+  .headline {
+    font-size: clamp(30px, 13.33cqw, 62px);
+    line-height: clamp(28px, 12.3cqw, 58px);
+  }
+
+  .paragraph {
+    max-width: none;
+  }
+
+  .sphereGrey {
+    left: 25.725%;
+    top: 78.22%;
+    width: 6.853%;
+    height: 5.573%;
+  }
+
+  .sphereLeftMed {
+    left: 26.013%;
+    top: 61.5%;
+    width: 6.131%;
+    height: 4.693%;
+  }
+
+  .sphereLeftSmall {
+    left: 30.557%;
+    top: 65.32%;
+    width: 2.524%;
+    height: 2.053%;
+  }
+
+  .headphone {
+    left: 32%;
+    top: 52%;
+    width: 36%;
+    height: 38%;
+  }
+
+  .sphereTopRight {
+    left: 65.54%;
+    top: 53.47%;
+    width: 8.656%;
+    height: 6.922%;
+  }
+
+  .sphereMidRight {
+    left: 68.79%;
+    top: 64.14%;
+    width: 3.967%;
+    height: 3.227%;
+  }
+
+  .sphereTinyRight {
+    left: 66.12%;
+    top: 68.54%;
+    width: 1.948%;
+    height: 2.112%;
+  }
+
+  .sphereBottomRight {
+    left: 68.79%;
+    top: 78.93%;
+    width: 6.853%;
+    height: 5.455%;
+  }
+
+  .sphereBottomCenter {
+    left: 47.87%;
+    top: 89.37%;
+    width: 2.524%;
+    height: 1.994%;
+  }
+
+  .followRow {
+    left: 0;
+    right: 0;
+    bottom: 16px;
+    justify-content: center;
+  }
 }
