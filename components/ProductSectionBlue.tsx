@@ -8,9 +8,14 @@ const SOCIAL_LINKS = [
   { name: "YouTube", src: "/product-blue/social-youtube.png" },
 ];
 
-export default function ProductSectionBlue() {
+type Props = {
+  /** "from" fades/shrinks out as its stage's scroll progress rises; "to" fades/grows in. */
+  role: "from" | "to";
+};
+
+export default function ProductSectionBlue({ role }: Props) {
   return (
-    <div className={styles.wrap}>
+    <div className={styles.wrap} data-role={role}>
       {/* Same 1672x941 layout/positions as ProductSectionBlack (kept in sync in Figma), just the
           Blue color variant — see ProductSectionBlue.module.css for details. */}
       <div className={styles.sphereGrey} aria-hidden="true">

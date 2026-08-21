@@ -1,0 +1,203 @@
+/*
+  Ported 1:1 from the "Headphone Product Green" Figma frame (1672x941 canvas). Unlike Black/Blue, this
+  export's headphone photo already has the floating spheres baked into one flattened image, so there's
+  a single `.headphone` element instead of nine. Text/nav are dark (like the Hero) rather than white,
+  since this background is light, not dark.
+
+  Green is the last stop in the Blue->Black->Green sequence (see ProductStage.tsx), so it currently
+  only ever plays "to" (fades/grows in) — but supports "from" too via the same `[data-role]` pattern
+  used by ProductSectionBlue/Black, in case the sequence gets extended later.
+*/
+
+.wrap {
+  position: absolute;
+  inset: 0;
+  container-type: inline-size;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #ecf7c7 0%, #cfe096 100%);
+  font-family: var(--font-montserrat), Montserrat, "Helvetica Neue", Arial, sans-serif;
+}
+
+.wrap[data-role="to"] {
+  opacity: var(--product-progress, 0);
+}
+
+.wrap[data-role="from"] {
+  opacity: calc(1 - var(--product-progress, 0));
+}
+
+/* "to": grows from small and settles into its resting position as progress -> 1. "from": shrinks and
+   rises out of frame as progress -> 1. Both layered on top of the shared fade above. */
+.headphone {
+  position: absolute;
+  left: 35.885%;
+  top: 15.941%;
+  width: 41.866%;
+  height: 73.326%;
+  z-index: 4;
+  transform-origin: center;
+}
+
+.wrap[data-role="to"] .headphone {
+  transform: translateY(calc((1 - var(--product-progress, 0)) * 60%)) scale(calc(0.35 + var(--product-progress, 0) * 0.65));
+}
+
+.wrap[data-role="from"] .headphone {
+  transform: translateY(calc(var(--product-progress, 0) * -60%)) scale(calc(1 - var(--product-progress, 0) * 0.65));
+}
+
+.headphone img {
+  object-fit: contain;
+}
+
+/* ---- Left text column — identical box model to ProductSectionBlack/Blue ---- */
+
+.leftColumn {
+  position: absolute;
+  z-index: 10;
+  left: clamp(20px, 4.067%, 68px);
+  top: 20.298%;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, min(1.9cqw, 3.19vh), 30px);
+  max-width: 33%;
+}
+
+.headline {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-antonio), Antonio, "Arial Narrow", sans-serif;
+  font-weight: 700;
+  font-size: clamp(28px, min(8cqw, 13.71vh), 129px);
+  line-height: clamp(28px, min(7.66cqw, 13.07vh), 123px);
+  letter-spacing: clamp(-1px, -0.18cqw, -3px);
+}
+
+.headline .dark {
+  color: #171717;
+}
+
+.headline .accent {
+  color: #7a8b2e;
+}
+
+.subtext {
+  margin: 0;
+  font-weight: 500;
+  font-size: clamp(12px, min(1.136cqw, 2.02vh), 19px);
+  line-height: 1.3;
+  color: #171717;
+}
+
+.paragraph {
+  margin: 0;
+  max-width: 30vw;
+  font-weight: 400;
+  font-size: clamp(12px, min(0.957cqw, 1.7vh), 16px);
+  line-height: 1.5;
+  color: #171717;
+}
+
+/* ---- Scroll up/down — identical box model to ProductSectionBlack/Blue ---- */
+
+.scrollUp,
+.scrollDown {
+  position: absolute;
+  z-index: 10;
+  right: clamp(20px, 4.5%, 72px);
+  width: clamp(32px, 3cqw, 52px);
+  height: clamp(32px, 3cqw, 52px);
+  border-radius: 50%;
+  background: #fff;
+  color: #1e1e1e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease;
+}
+
+.scrollArrowUp,
+.scrollArrowDown {
+  font-weight: 700;
+  font-size: clamp(15px, 1.5cqw, 26px);
+  line-height: 1;
+}
+
+.scrollArrowUp {
+  transform: rotate(-90deg);
+}
+
+.scrollArrowDown {
+  transform: rotate(90deg);
+}
+
+.scrollUp {
+  top: 16.791%;
+}
+
+.scrollDown {
+  top: 74.07%;
+}
+
+.scrollUp:hover,
+.scrollDown:hover {
+  background: #f4f8e9;
+}
+
+.scrollUp:hover {
+  transform: translateY(-4px);
+}
+
+.scrollDown:hover {
+  transform: translateY(4px);
+}
+
+/* ---- Follow us ---- */
+
+.followRow {
+  position: absolute;
+  z-index: 10;
+  right: clamp(20px, 4.8%, 82px);
+  bottom: clamp(20px, 5vh, 60px);
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 2.6cqw, 40px);
+}
+
+.followText {
+  font-weight: 500;
+  font-size: clamp(14px, 1.196cqw, 20px);
+  color: #171717;
+  white-space: nowrap;
+}
+
+.socialIcons {
+  display: flex;
+  align-items: center;
+  gap: clamp(9px, 0.977cqw, 15px);
+}
+
+.socialIcon {
+  position: relative;
+  width: clamp(32px, 3.11cqw, 52px);
+  height: clamp(32px, 3.11cqw, 52px);
+  border-radius: 50%;
+  background: #b8ce72;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.socialIcon:hover {
+  transform: translateY(-3px) scale(1.08);
+}
+
+.socialIconGlyph {
+  width: 46%;
+  height: 46%;
+  object-fit: contain;
+}

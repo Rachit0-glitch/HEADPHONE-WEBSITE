@@ -8,9 +8,15 @@ const SOCIAL_LINKS = [
   { name: "YouTube", src: "/product/social-youtube.png" },
 ];
 
-export default function ProductSectionBlack() {
+type Props = {
+  /** "from" fades/shrinks out as its stage's scroll progress rises; "to" fades/grows in. Black plays
+      "to" in the Blue->Black stage and "from" in the Black->Green stage. */
+  role: "from" | "to";
+};
+
+export default function ProductSectionBlack({ role }: Props) {
   return (
-    <div className={styles.wrap}>
+    <div className={styles.wrap} data-role={role}>
       {/* ---- Floating spheres + product photo, positioned as percentages of the 1672x941 Figma
           canvas. No cropping concerns here (unlike the Hero's photo background) since the backdrop
           is a pure CSS radial-gradient, which fills any viewport exactly. ---- */}
