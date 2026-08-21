@@ -132,6 +132,11 @@
 
 /* ---- Left text column ---- */
 
+/* Every font-size/gap below is bounded by `min(Ncqw, Mvh)` rather than just `Ncqw` — on a viewport
+   that's wide relative to its height (a real browser window with toolbars eating into vertical space
+   is shorter than a raw 16:9 screen), pure width-based cqw sizing let the headline+subtext+paragraph
+   stack grow taller than the 100dvh section itself, and `.wrap`'s overflow:hidden silently clipped the
+   paragraph off the bottom. The vh cap makes the text shrink to fit the box's actual height instead. */
 .leftColumn {
   position: absolute;
   z-index: 10;
@@ -139,7 +144,7 @@
   top: 20.298%;
   display: flex;
   flex-direction: column;
-  gap: clamp(16px, 1.9cqw, 30px);
+  gap: clamp(12px, min(1.9cqw, 3.19vh), 30px);
   max-width: 33%;
 }
 
@@ -149,8 +154,8 @@
   flex-direction: column;
   font-family: var(--font-antonio), Antonio, "Arial Narrow", sans-serif;
   font-weight: 700;
-  font-size: clamp(32px, 8cqw, 129px);
-  line-height: clamp(31px, 7.66cqw, 123px);
+  font-size: clamp(28px, min(8cqw, 13.71vh), 129px);
+  line-height: clamp(28px, min(7.66cqw, 13.07vh), 123px);
   letter-spacing: clamp(-1px, -0.18cqw, -3px);
 }
 
@@ -166,7 +171,7 @@
 .subtext {
   margin: 0;
   font-weight: 500;
-  font-size: clamp(13px, 1.136cqw, 19px);
+  font-size: clamp(12px, min(1.136cqw, 2.02vh), 19px);
   line-height: 1.3;
   color: #fff;
 }
@@ -175,7 +180,7 @@
   margin: 0;
   max-width: 30vw;
   font-weight: 400;
-  font-size: clamp(13px, 0.957cqw, 16px);
+  font-size: clamp(12px, min(0.957cqw, 1.7vh), 16px);
   line-height: 1.5;
   color: #b9b6ae;
 }
@@ -183,23 +188,22 @@
 /* ---- Scroll up/down ---- */
 
 /* Same "→" glyph as the Hero/Shop-pill arrows, just rotated — keeps every arrow icon on the site the
-   same shape/weight instead of mixing in the thinner default ↑/↓ glyphs, and sized at the same
-   ~50% of its circle's diameter that the Hero's arrow circles use (these were previously much smaller
-   relative to their circle). */
+   same shape/weight instead of mixing in the thinner default ↑/↓ glyphs. Sized smaller/quieter than
+   the first pass — these read as a small secondary wayfinding cue, not a second CTA the size of
+   Shop Now. Purely decorative (no href/onClick) until the scroll animation lands. */
 .scrollUp,
 .scrollDown {
   position: absolute;
   z-index: 10;
-  right: clamp(20px, 6.03%, 96px);
-  width: clamp(48px, 4.785cqw, 80px);
-  height: clamp(48px, 4.785cqw, 80px);
+  right: clamp(20px, 4.5%, 72px);
+  width: clamp(32px, 3cqw, 52px);
+  height: clamp(32px, 3cqw, 52px);
   border-radius: 50%;
   background: #fff;
   color: #171717;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease;
 }
@@ -207,7 +211,7 @@
 .scrollArrowUp,
 .scrollArrowDown {
   font-weight: 700;
-  font-size: clamp(24px, 2.5cqw, 42px);
+  font-size: clamp(15px, 1.5cqw, 26px);
   line-height: 1;
 }
 

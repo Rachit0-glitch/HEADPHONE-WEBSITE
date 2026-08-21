@@ -65,24 +65,22 @@ export default function ProductSection() {
         </p>
       </div>
 
-      <a href="#" className={styles.scrollUp} aria-label="Scroll up">
-        <span className={styles.scrollArrowUp} aria-hidden="true">
-          &rarr;
-        </span>
-      </a>
-      <a href="#" className={styles.scrollDown} aria-label="Scroll down">
-        <span className={styles.scrollArrowDown} aria-hidden="true">
-          &rarr;
-        </span>
-      </a>
+      {/* Decorative only for now — the scroll animation lands in a later pass, so these deliberately
+          aren't links/buttons yet (nothing in this section should be clickable). */}
+      <div className={styles.scrollUp} aria-hidden="true">
+        <span className={styles.scrollArrowUp}>&rarr;</span>
+      </div>
+      <div className={styles.scrollDown} aria-hidden="true">
+        <span className={styles.scrollArrowDown}>&rarr;</span>
+      </div>
 
       <div className={styles.followRow}>
         <span className={styles.followText}>Follow Us</span>
         <div className={styles.socialIcons}>
           {SOCIAL_LINKS.map((social) => (
-            <a key={social.name} href="#" className={styles.socialIcon} aria-label={social.name}>
+            <div key={social.name} className={styles.socialIcon} aria-hidden="true">
               <Image src={social.src} alt="" fill sizes="4vw" />
-            </a>
+            </div>
           ))}
         </div>
       </div>

@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import styles from "./SiteHeader.module.css";
 
 const NAV_LINKS = [
@@ -9,8 +12,21 @@ const NAV_LINKS = [
 ];
 
 export default function SiteHeader() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    function onScroll() {
+      // Flip once the Hero (100dvh) has scrolled out from under the header, so the header's
+      // color always matches whichever section is actually behind it.
+      setScrolled(window.scrollY > window.innerHeight - 100);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
       <a href="/" className={styles.logo}>
         SONIC&deg;
       </a>

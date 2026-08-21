@@ -1,9 +1,13 @@
 /*
   One shared nav, fixed to the viewport so it stays visible as the user scrolls from the Hero into
   the Product section (previously each section had its own copy of the nav, which looked broken once
-  you actually scrolled through the page). A soft top-down scrim sits behind it so the same white
-  logo/nav text stays legible over the Hero's light photo AND the Product section's dark backdrop,
-  instead of needing a different color per section.
+  you actually scrolled through the page).
+
+  Two states, toggled by the `.scrolled` class from SiteHeader.tsx's scroll listener:
+  - default (over the Hero's light photo): transparent background, dark text — the Hero's original
+    unscrimmed nav look.
+  - `.scrolled` (once the Hero has scrolled out from under the header, i.e. now over the dark Product
+    section): solid black background, white text.
 */
 
 .header {
@@ -14,12 +18,13 @@
   z-index: 50;
   container-type: inline-size;
   padding-bottom: 40px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.18) 60%, rgba(0, 0, 0, 0) 100%);
-  pointer-events: none;
+  background: transparent;
+  transition: background 0.3s ease;
 }
 
-.header > * {
-  pointer-events: auto;
+.header.scrolled {
+  background: #000;
+  padding-bottom: 0;
 }
 
 .logo {
@@ -29,15 +34,23 @@
   font-weight: 800;
   font-size: clamp(20px, 2.083cqw, 32px);
   letter-spacing: calc(1 / 1536 * 100cqw);
-  color: #fff;
+  color: #171717;
   text-decoration: none;
   cursor: pointer;
   transition: color 0.25s ease, transform 0.25s ease;
 }
 
+.scrolled .logo {
+  color: #fff;
+}
+
 .logo:hover {
-  color: #cfe3e0;
+  color: #1e4f54;
   transform: translateY(-1px);
+}
+
+.scrolled .logo:hover {
+  color: #cfe3e0;
 }
 
 .nav {
@@ -54,11 +67,16 @@
   position: relative;
   font-weight: 700;
   font-size: clamp(12px, 1.107cqw, 17px);
-  color: #fff;
+  color: #171717;
   text-decoration: none;
   white-space: nowrap;
   padding-bottom: calc(9 / 1536 * 100cqw);
   transition: color 0.25s ease;
+}
+
+.scrolled .navLink,
+.scrolled .navLinkActive {
+  color: #fff;
 }
 
 .navLink::after,
@@ -68,8 +86,13 @@
   left: 0;
   bottom: 0;
   height: calc(3 / 1536 * 100cqw);
+  background: #171717;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+}
+
+.scrolled .navLink::after,
+.scrolled .navLinkActive::after {
   background: #fff;
-  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* HOME's underline stays permanently on — this is a single-page site, so HOME is always "current." */
@@ -86,6 +109,10 @@
 }
 
 .navLink:hover {
+  color: #1e4f54;
+}
+
+.scrolled .navLink:hover {
   color: #cfe3e0;
 }
 
