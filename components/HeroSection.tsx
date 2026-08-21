@@ -45,9 +45,9 @@ export default function HeroSection() {
       </div>
 
       {/* ---- UI chrome: pinned to the real viewport edges, never cropped, regardless of screen ratio ---- */}
-      <div className={styles.logo}>SONIC&deg;</div>
+      <div className={`${styles.logo} ${styles.fadeInDown}`}>SONIC&deg;</div>
 
-      <nav className={styles.nav} aria-label="Primary">
+      <nav className={`${styles.nav} ${styles.fadeInDown}`} aria-label="Primary">
         {NAV_LINKS.map((link) => (
           <a key={link} href="#" className={link === "HOME" ? styles.navLinkActive : styles.navLink}>
             {link}
@@ -55,29 +55,34 @@ export default function HeroSection() {
         ))}
       </nav>
 
-      <a href="#" className={styles.shopPill}>
+      <a href="#" className={`${styles.shopPill} ${styles.fadeInDown}`}>
         <span>SHOP NOW</span>
         <span className={styles.shopArrow} aria-hidden="true">
           &rarr;
         </span>
       </a>
 
-      <h1 className={styles.headline}>
-        <span className={styles.dark}>BLOCK</span>
-        <span className={styles.dark}>THE NOISE</span>
-        <span className={styles.teal}>OWN YOUR</span>
-        <span className={styles.teal}>WORLD</span>
-      </h1>
+      {/* Headline + divider + subtext grouped into one flex column, vertically centered as a unit —
+          spacing between them always follows the headline's REAL rendered height, so they can never
+          overlap no matter how large the responsive font-size gets. */}
+      <div className={styles.leftColumn}>
+        <h1 className={styles.headline}>
+          <span className={`${styles.dark} ${styles.fadeInUp}`}>BLOCK</span>
+          <span className={`${styles.dark} ${styles.fadeInUp}`}>THE NOISE</span>
+          <span className={`${styles.teal} ${styles.fadeInUp}`}>OWN YOUR</span>
+          <span className={`${styles.teal} ${styles.fadeInUp}`}>WORLD</span>
+        </h1>
 
-      <div className={styles.divider} />
+        <div className={`${styles.divider} ${styles.fadeInUp}`} />
 
-      <p className={styles.subtext}>
-        Premium Wireless
-        <br />
-        Headphones
-      </p>
+        <p className={`${styles.subtext} ${styles.fadeInUp}`}>
+          Premium Wireless
+          <br />
+          Headphones
+        </p>
+      </div>
 
-      <a href="#" className={styles.discover}>
+      <a href="#" className={`${styles.discover} ${styles.fadeInUp}`}>
         <span className={styles.discoverText}>DISCOVER MORE</span>
         <span className={styles.discoverCircle} aria-hidden="true">
           &rarr;
