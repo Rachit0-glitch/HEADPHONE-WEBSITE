@@ -174,6 +174,19 @@
   color: #141414;
 }
 
+/* Modest, proportional bump for phones/tablets — the column widens and the font scales with it at
+   the same ratio, so line-wrapping behavior (verified to fit without overflow at 375px) can't change,
+   just reads a bit bolder/larger. */
+@media (max-width: 760px) {
+  .leftColumn {
+    max-width: 35%;
+  }
+  .headline {
+    font-size: clamp(28px, min(8.5cqw, 13.71vh), 129px);
+    line-height: clamp(28px, min(8.13cqw, 13.07vh), 123px);
+  }
+}
+
 .subtext {
   margin: 0;
   font-weight: 500;

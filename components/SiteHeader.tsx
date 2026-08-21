@@ -13,6 +13,7 @@ const NAV_LINKS = [
 
 export default function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     function onScroll() {
@@ -25,9 +26,20 @@ export default function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Below the mobile breakpoint (see .menuToggle's media query) the 5-link row + logo + Shop Now
+  // pill can't fit on one line the way the desktop layout does, so it collapses into this toggle +
+  // full-screen panel instead. Locking body scroll while it's open keeps the page from scrolling
+  // underneath the (non-scrollable) panel.
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   return (
-    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
-      <a href="/" className={styles.logo}>
+    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""} ${menuOpen ? styles.menuOpen : ""}`}>
+      <a href="/" className={styles.logo} onClick={() => setMenuOpen(false)}>
         SONIC&deg;
       </a>
 
@@ -49,6 +61,40 @@ export default function SiteHeader() {
           &rarr;
         </span>
       </a>
+
+      <button
+        type="button"
+        className={styles.menuToggle}
+        aria-label={menuOpen ? "Close menu" : "Open menu"}
+        aria-expanded={menuOpen}
+        onClick={() => setMenuOpen((open) => !open)}
+      >
+        <span className={styles.menuToggleBar} aria-hidden="true" />
+        <span className={styles.menuToggleBar} aria-hidden="true" />
+      </button>
+
+      <nav
+        className={`${styles.mobileNav} ${menuOpen ? styles.mobileNavOpen : ""}`}
+        aria-label="Primary"
+        aria-hidden={!menuOpen}
+      >
+        {NAV_LINKS.map((link) => (
+          <a
+            key={link.label}
+            href={link.href}
+            className={link.label === "HOME" ? styles.mobileNavLinkActive : styles.mobileNavLink}
+            onClick={() => setMenuOpen(false)}
+          >
+            {link.label}
+          </a>
+        ))}
+        <a href="#" className={styles.mobileShopPill} onClick={() => setMenuOpen(false)}>
+          <span>SHOP NOW</span>
+          <span className={styles.shopArrow} aria-hidden="true">
+            &rarr;
+          </span>
+        </a>
+      </nav>
     </header>
   );
 }
