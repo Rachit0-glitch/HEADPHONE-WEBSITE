@@ -57,7 +57,11 @@ export default function HeroSection() {
 
       <nav className={`${styles.nav} ${styles.fadeInDown}`} aria-label="Primary">
         {NAV_LINKS.map((link) => (
-          <a key={link.label} href={link.href} className={styles.navLink}>
+          <a
+            key={link.label}
+            href={link.href}
+            className={link.label === "HOME" ? styles.navLinkActive : styles.navLink}
+          >
             {link.label}
           </a>
         ))}

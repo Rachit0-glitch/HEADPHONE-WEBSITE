@@ -194,7 +194,8 @@
   gap: calc(46 / 1536 * 100cqw);
 }
 
-.navLink {
+.navLink,
+.navLinkActive {
   position: relative;
   font-weight: 700;
   font-size: clamp(12px, 1.107cqw, 17px);
@@ -205,15 +206,24 @@
   transition: color 0.25s ease;
 }
 
-.navLink::after {
+.navLink::after,
+.navLinkActive::after {
   content: "";
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 0%;
   height: calc(3 / 1536 * 100cqw);
   background: #1e4f54;
   transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* HOME's underline is always on — this is a single-page hero, so HOME is permanently "current." */
+.navLinkActive::after {
+  width: 100%;
+}
+
+.navLink::after {
+  width: 0%;
 }
 
 .navLink:hover::after {

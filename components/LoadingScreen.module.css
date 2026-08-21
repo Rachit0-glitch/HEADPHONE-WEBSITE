@@ -1,10 +1,11 @@
 /*
-  Three phases, driven by the "hold" -> "wipe" -> "fade" -> "done" state in LoadingScreen.tsx:
-  1. hold  — plain black screen, "SONIC" fades in centered in white.
-  2. wipe  — a solid white panel sweeps left-to-right across the whole screen, covering the black
-             and the brand mark as it passes.
-  3. fade  — the (now fully white) overlay fades out via opacity, revealing the hero underneath.
-  4. done  — component unmounts.
+  Phases, driven by the "hold" -> "fill" -> "fade" -> "done" state in LoadingScreen.tsx:
+  1. hold — black screen, "SONIC" sits in light grey, centered.
+  2. fill — a second, solid-white copy of the same text is revealed left-to-right via a clip-path
+             sweep, laid exactly on top of the grey copy — so the letters themselves fill with white,
+             like a progress bar made out of the wordmark instead of a plain screen wipe.
+  3. fade — the whole overlay fades out via opacity, revealing the hero underneath.
+  4. done — component unmounts.
 */
 
 .overlay {
@@ -15,7 +16,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   opacity: 1;
   transition: opacity 0.4s ease;
 }
@@ -24,58 +24,36 @@
   opacity: 0;
 }
 
-.brand {
+.brandWrap {
   position: relative;
-  z-index: 1;
   font-family: var(--font-antonio), Antonio, "Arial Narrow", sans-serif;
   font-weight: 700;
-  color: #fff;
   font-size: clamp(28px, 5vw, 56px);
   letter-spacing: 3px;
-  opacity: 0;
-  animation: brandIn 0.6s ease forwards 0.15s;
 }
 
-@keyframes brandIn {
-  from {
-    opacity: 0;
-    transform: scale(0.94);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+.brandBase {
+  display: block;
+  color: #4a4a4a;
 }
 
-.isWiping .brand {
-  animation: brandOut 0.3s ease forwards;
-}
-
-@keyframes brandOut {
-  to {
-    opacity: 0;
-  }
-}
-
-.wipePanel {
+.brandFill {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 0%;
-  background: #fff;
-  z-index: 2;
+  inset: 0;
+  display: block;
+  color: #fff;
+  clip-path: inset(0 100% 0 0);
 }
 
-.isWiping .wipePanel {
-  animation: wipeAcross 0.7s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+.isFilling {
+  animation: fillAcross 1.2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 
-@keyframes wipeAcross {
+@keyframes fillAcross {
   from {
-    width: 0%;
+    clip-path: inset(0 100% 0 0);
   }
   to {
-    width: 100%;
+    clip-path: inset(0 0 0 0);
   }
 }
