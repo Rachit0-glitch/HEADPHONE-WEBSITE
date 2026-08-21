@@ -20,6 +20,7 @@
   padding-bottom: 40px;
   background: transparent;
   transition: background 0.3s ease;
+  font-family: var(--font-montserrat), Montserrat, "Helvetica Neue", Arial, sans-serif;
 }
 
 .header.scrolled {
