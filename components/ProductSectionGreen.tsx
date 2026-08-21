@@ -8,14 +8,11 @@ const SOCIAL_LINKS = [
   { name: "YouTube", src: "/product-green/social-youtube.png" },
 ];
 
-type Props = {
-  /** "from" fades/shrinks out as its stage's scroll progress rises; "to" fades/grows in. */
-  role: "from" | "to";
-};
-
-export default function ProductSectionGreen({ role }: Props) {
+// Always index 2 (the last state, currently) in the Blue->Black->Green sequence — its CSS reads
+// --entrance-2/--exit-2 directly, no role prop needed.
+export default function ProductSectionGreen() {
   return (
-    <div className={styles.wrap} data-role={role}>
+    <div className={styles.wrap}>
       {/* This export's headphone photo already has the floating spheres baked into one flattened
           image (unlike Black/Blue's separate layers), so it's a single element here. */}
       <div className={styles.headphone} aria-hidden="true">

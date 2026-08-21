@@ -8,14 +8,11 @@ const SOCIAL_LINKS = [
   { name: "YouTube", src: "/product-blue/social-youtube.png" },
 ];
 
-type Props = {
-  /** "from" fades/shrinks out as its stage's scroll progress rises; "to" fades/grows in. */
-  role: "from" | "to";
-};
-
-export default function ProductSectionBlue({ role }: Props) {
+// Always index 0 (the default/first-shown state) in the Blue->Black->Green sequence — its CSS reads
+// --entrance-0/--exit-0 directly, no role prop needed.
+export default function ProductSectionBlue() {
   return (
-    <div className={styles.wrap} data-role={role}>
+    <div className={styles.wrap}>
       {/* Same 1672x941 layout/positions as ProductSectionBlack (kept in sync in Figma), just the
           Blue color variant — see ProductSectionBlue.module.css for details. */}
       <div className={styles.sphereGrey} aria-hidden="true">

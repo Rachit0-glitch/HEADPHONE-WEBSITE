@@ -1,0 +1,30 @@
+/*
+  One continuous scroll zone for the entire Blue->Black->Green (->Beige later) sequence — this is
+  what actually fixes the "3rd section" problem the previous two-ProductStage version had: two
+  separate sticky-pinned zones chained back to back read as two distinct sections even though the
+  content was continuous. Here there's exactly one `.wrapper` / `.sticky` pair for every state, so
+  there's only ever one pinned zone for the whole "2nd section" of the site.
+
+  `.wrapper` is taller than one viewport (100dvh to hold the panel in place + a short extra scroll
+  distance per transition to scrub through), and `.sticky` pins itself to the top of the viewport for
+  as long as `.wrapper` is being scrolled through. Every state is stacked absolutely inside `.sticky`
+  at the exact same footprint (`position: sticky` is itself a positioned element, so it's the
+  containing block each state's `position: absolute; inset: 0;` lines up against) — none of them move
+  as a whole block; each reads its own fixed `--entrance-N`/`--exit-N` custom properties (written by
+  ProductSequence.tsx on scroll) directly in its own CSS for its opacity/headphone-transform.
+
+  NOT `overflow-x: hidden` on html/body: that turns it into its own scroll container, which breaks
+  `position: sticky` (the actual root cause of an earlier, unrelated "white section" bug).
+*/
+
+.wrapper {
+  position: relative;
+  height: 160dvh; /* fallback for the instant before JS measures window.innerHeight and takes over in px */
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  overflow: hidden;
+}

@@ -4,13 +4,13 @@
   top-right, subtext/paragraph nudged left). Every position below is that exact px position converted
   to a percentage of the 1672x941 canvas.
 
-  Black sits in the MIDDLE of the Blue->Black->Green sequence (see ProductStage.tsx), so it plays both
-  roles: "to" in the Blue->Black stage (fades/grows in) and "from" in the Black->Green stage
-  (fades/shrinks out) — driven by the `[data-role]` attribute set on `.wrap` by whichever
-  <ProductSectionBlack role="..."/> instance is rendering. Everything here (background, spheres,
-  headline, subtext, paragraph, follow-us) fades together via `.wrap`'s own opacity, reading the
-  `--product-progress` custom property its stage writes on scroll — no React re-renders needed. The
-  headphone photo additionally grows-in/shrinks-out on top of that fade (see `.headphone` below).
+  Black is always index 1 (the middle state) in the Blue->Black->Green sequence (see
+  ProductSequence.tsx), so it both fades/grows in (as --entrance-1 rises 0->1, during the Blue->Black
+  part of the scroll) and later fades/shrinks out (as --exit-1 rises 0->1, during the Black->Green
+  part) — both custom properties ProductSequence writes on scroll, no React re-renders needed.
+  Everything here (background, spheres, headline, subtext, paragraph, follow-us) fades via `.wrap`'s
+  own opacity; the headphone photo additionally grows-in/shrinks-out on top of that fade (see
+  `.headphone` below).
 */
 
 .wrap {
@@ -20,14 +20,7 @@
   overflow: hidden;
   background: radial-gradient(circle at center, #8a8272 0%, #4a4636 55%, #242019 100%);
   font-family: var(--font-montserrat), Montserrat, "Helvetica Neue", Arial, sans-serif;
-}
-
-.wrap[data-role="to"] {
-  opacity: var(--product-progress, 0);
-}
-
-.wrap[data-role="from"] {
-  opacity: calc(1 - var(--product-progress, 0));
+  opacity: calc(var(--entrance-1, 0) * (1 - var(--exit-1, 0)));
 }
 
 /* ---- Floating spheres + product photo (stacking order matches the live Figma layer order) ---- */
@@ -60,8 +53,8 @@
   z-index: 3;
 }
 
-/* "to": grows from small and settles into its resting position as progress -> 1. "from": shrinks and
-   rises out of frame as progress -> 1. Both layered on top of the shared fade above. */
+/* Grows from small and settles into its resting position as --entrance-1 -> 1, then shrinks and
+   rises out of frame again as --exit-1 -> 1. Both layered on top of the shared fade above. */
 .headphone {
   position: absolute;
   left: 40.969%;
@@ -70,14 +63,8 @@
   height: 68.863%;
   z-index: 4;
   transform-origin: center;
-}
-
-.wrap[data-role="to"] .headphone {
-  transform: translateY(calc((1 - var(--product-progress, 0)) * 60%)) scale(calc(0.35 + var(--product-progress, 0) * 0.65));
-}
-
-.wrap[data-role="from"] .headphone {
-  transform: translateY(calc(var(--product-progress, 0) * -60%)) scale(calc(1 - var(--product-progress, 0) * 0.65));
+  transform: translateY(calc((1 - var(--entrance-1, 0)) * 60% - var(--exit-1, 0) * 60%))
+    scale(calc((0.35 + var(--entrance-1, 0) * 0.65) * (1 - var(--exit-1, 0) * 0.65)));
 }
 
 .sphereTopRight {

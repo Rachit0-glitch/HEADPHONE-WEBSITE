@@ -6,14 +6,12 @@
   differ: "The Color Of Calm / The Depth Of Sound" (white / cyan accent, not Black's "hidden" treatment)
   over a teal radial gradient background.
 
-  This is always the "from" side of whichever stage it's rendered in (see ProductStage.tsx) — Blue is
-  the site's default/first Product state, so it only ever exits. Everything here (background, spheres,
-  headline, subtext, paragraph, follow-us) fades out together via `.wrap`'s own opacity, driven by the
-  `--product-progress` custom property ProductStage writes on scroll (0 = fully shown, 1 = fully gone)
-  — no React re-renders needed, the browser just recomputes these on scroll. The headphone photo
-  additionally shrinks and rises out of frame on top of that fade (see `.headphone` below). The
-  `[data-role]` attribute selectors exist so this same CSS pattern is reusable by the other color
-  variants, which can play either role depending on their position in the Blue->Black->Green sequence.
+  Blue is always index 0 (the default/first-shown state) in the Blue->Black->Green sequence (see
+  ProductSequence.tsx) — it only ever exits, driven by `--exit-0` (0 = fully shown, 1 = fully gone),
+  a custom property ProductSequence writes on scroll — no React re-renders needed, the browser just
+  recomputes these on scroll. Everything here (background, spheres, headline, subtext, paragraph,
+  follow-us) fades out together via `.wrap`'s own opacity; the headphone photo additionally shrinks
+  and rises out of frame on top of that fade (see `.headphone` below).
 */
 
 .wrap {
@@ -23,14 +21,7 @@
   overflow: hidden;
   background: radial-gradient(circle at center, #5bb2c0 0%, #0f6b7a 55%, #01424d 100%);
   font-family: var(--font-montserrat), Montserrat, "Helvetica Neue", Arial, sans-serif;
-}
-
-.wrap[data-role="from"] {
-  opacity: calc(1 - var(--product-progress, 0));
-}
-
-.wrap[data-role="to"] {
-  opacity: var(--product-progress, 0);
+  opacity: calc(1 - var(--exit-0, 0));
 }
 
 /* ---- Floating spheres + product photo (stacking order matches the live Figma layer order) ---- */
@@ -63,8 +54,7 @@
   z-index: 3;
 }
 
-/* "from": shrinks and rises out of frame as progress -> 1. "to": grows from small and settles into
-   place as progress -> 1. Both layered on top of the shared fade above. */
+/* Shrinks and rises out of frame as --exit-0 -> 1, on top of the shared fade above. */
 .headphone {
   position: absolute;
   left: 40.789%;
@@ -73,14 +63,7 @@
   height: 68.863%;
   z-index: 4;
   transform-origin: center;
-}
-
-.wrap[data-role="from"] .headphone {
-  transform: translateY(calc(var(--product-progress, 0) * -60%)) scale(calc(1 - var(--product-progress, 0) * 0.65));
-}
-
-.wrap[data-role="to"] .headphone {
-  transform: translateY(calc((1 - var(--product-progress, 0)) * 60%)) scale(calc(0.35 + var(--product-progress, 0) * 0.65));
+  transform: translateY(calc(var(--exit-0, 0) * -60%)) scale(calc(1 - var(--exit-0, 0) * 0.65));
 }
 
 .sphereTopRight {

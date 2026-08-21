@@ -4,9 +4,9 @@
   a single `.headphone` element instead of nine. Text/nav are dark (like the Hero) rather than white,
   since this background is light, not dark.
 
-  Green is the last stop in the Blue->Black->Green sequence (see ProductStage.tsx), so it currently
-  only ever plays "to" (fades/grows in) — but supports "from" too via the same `[data-role]` pattern
-  used by ProductSectionBlue/Black, in case the sequence gets extended later.
+  Green is always index 2 in the Blue->Black->Green sequence (see ProductSequence.tsx) — currently
+  the last state, so its --exit-2 always evaluates to 0 (its entrance/exit formula matches Black's
+  full pattern anyway, so it's already ready to become a middle state if another color joins after it).
 */
 
 .wrap {
@@ -16,18 +16,11 @@
   overflow: hidden;
   background: radial-gradient(circle at center, #ecf7c7 0%, #cfe096 100%);
   font-family: var(--font-montserrat), Montserrat, "Helvetica Neue", Arial, sans-serif;
+  opacity: calc(var(--entrance-2, 0) * (1 - var(--exit-2, 0)));
 }
 
-.wrap[data-role="to"] {
-  opacity: var(--product-progress, 0);
-}
-
-.wrap[data-role="from"] {
-  opacity: calc(1 - var(--product-progress, 0));
-}
-
-/* "to": grows from small and settles into its resting position as progress -> 1. "from": shrinks and
-   rises out of frame as progress -> 1. Both layered on top of the shared fade above. */
+/* Grows from small and settles into its resting position as --entrance-2 -> 1 (and would shrink/rise
+   out again as --exit-2 -> 1, once something follows it). Layered on top of the shared fade above. */
 .headphone {
   position: absolute;
   left: 35.885%;
@@ -36,14 +29,8 @@
   height: 73.326%;
   z-index: 4;
   transform-origin: center;
-}
-
-.wrap[data-role="to"] .headphone {
-  transform: translateY(calc((1 - var(--product-progress, 0)) * 60%)) scale(calc(0.35 + var(--product-progress, 0) * 0.65));
-}
-
-.wrap[data-role="from"] .headphone {
-  transform: translateY(calc(var(--product-progress, 0) * -60%)) scale(calc(1 - var(--product-progress, 0) * 0.65));
+  transform: translateY(calc((1 - var(--entrance-2, 0)) * 60% - var(--exit-2, 0) * 60%))
+    scale(calc((0.35 + var(--entrance-2, 0) * 0.65) * (1 - var(--exit-2, 0) * 0.65)));
 }
 
 .headphone img {
