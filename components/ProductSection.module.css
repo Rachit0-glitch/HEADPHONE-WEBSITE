@@ -1,0 +1,386 @@
+/*
+  Ported 1:1 from the "Headphone Product Black" Figma frame (1672x941 canvas), after your manual
+  hand-tuning (headline copy -> "Paint The Silence / Hear The Dark", scroll-up button moved to the
+  top-right, subtext/paragraph nudged left). Every position below is that exact px position converted
+  to a percentage of the 1672x941 canvas.
+
+  Unlike the Hero section, this section's backdrop is a plain CSS radial-gradient (not a photo), so it
+  fills every viewport exactly — no cover-crop / letterbox trade-off needed here. Floating spheres and
+  the product photo are positioned as simple percentages of `.wrap`; UI chrome (nav/headline/CTA/
+  scroll buttons/follow-us) is also percentage-positioned, all sharing the same `cqw` container-query
+  scaling used in the Hero section for smooth, viewport-independent type sizing.
+*/
+
+.wrap {
+  position: relative;
+  container-type: inline-size;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #8a8272 0%, #4a4636 55%, #242019 100%);
+  font-family: var(--font-montserrat), Montserrat, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ---- Floating spheres + product photo (stacking order matches the live Figma layer order) ---- */
+
+.sphereGrey {
+  position: absolute;
+  left: 35.766%;
+  top: 64.293%;
+  width: 5.682%;
+  height: 10.096%;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+.sphereLeftMed {
+  position: absolute;
+  left: 36.005%;
+  top: 34.006%;
+  width: 5.084%;
+  height: 8.502%;
+  z-index: 2;
+}
+
+.sphereLeftSmall {
+  position: absolute;
+  left: 39.773%;
+  top: 40.914%;
+  width: 2.093%;
+  height: 3.719%;
+  z-index: 3;
+}
+
+.headphone {
+  position: absolute;
+  left: 40.969%;
+  top: 16.791%;
+  width: 29.844%;
+  height: 68.863%;
+  z-index: 4;
+}
+
+.sphereTopRight {
+  position: absolute;
+  left: 68.78%;
+  top: 19.447%;
+  width: 7.177%;
+  height: 12.54%;
+  z-index: 5;
+  animation: floatDrift 4.5s ease-in-out infinite;
+}
+
+.sphereMidRight {
+  position: absolute;
+  left: 71.471%;
+  top: 38.789%;
+  width: 3.289%;
+  height: 5.845%;
+  z-index: 6;
+}
+
+.sphereTinyRight {
+  position: absolute;
+  left: 69.258%;
+  top: 46.759%;
+  width: 1.615%;
+  height: 3.826%;
+  z-index: 7;
+}
+
+.sphereBottomRight {
+  position: absolute;
+  left: 71.471%;
+  top: 65.569%;
+  width: 5.682%;
+  height: 9.883%;
+  z-index: 8;
+  animation: floatDrift 4.5s ease-in-out infinite;
+  animation-delay: 1.2s;
+}
+
+.sphereBottomCenter {
+  position: absolute;
+  left: 54.127%;
+  top: 84.485%;
+  width: 2.093%;
+  height: 3.613%;
+  z-index: 9;
+}
+
+@keyframes floatDrift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3%);
+  }
+}
+
+.sphereGrey img,
+.sphereLeftMed img,
+.sphereLeftSmall img,
+.headphone img,
+.sphereTopRight img,
+.sphereMidRight img,
+.sphereTinyRight img,
+.sphereBottomRight img,
+.sphereBottomCenter img {
+  object-fit: contain;
+}
+
+/* ---- Nav ---- */
+
+.logo {
+  position: absolute;
+  z-index: 10;
+  left: clamp(20px, 4.904%, 75px);
+  top: clamp(16px, 3.5vh, 40px);
+  font-weight: 800;
+  font-size: clamp(20px, 2.083cqw, 32px);
+  letter-spacing: calc(1 / 1536 * 100cqw);
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.logo:hover {
+  color: #cfcabf;
+  transform: translateY(-1px);
+}
+
+.nav {
+  position: absolute;
+  z-index: 10;
+  left: 28.469%;
+  top: clamp(20px, 4vh, 46px);
+  display: flex;
+  align-items: center;
+  gap: calc(46 / 1536 * 100cqw);
+}
+
+.navLink,
+.navLinkActive {
+  position: relative;
+  font-weight: 700;
+  font-size: clamp(12px, 1.107cqw, 17px);
+  color: #fff;
+  text-decoration: none;
+  white-space: nowrap;
+  padding-bottom: calc(9 / 1536 * 100cqw);
+  transition: color 0.25s ease;
+}
+
+.navLink::after,
+.navLinkActive::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: calc(3 / 1536 * 100cqw);
+  background: #fff;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* HOME's underline is always on — matches the Hero section's "permanently current page" nav mark. */
+.navLinkActive::after {
+  width: 100%;
+}
+
+.navLink::after {
+  width: 0%;
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+.navLink:hover {
+  color: #cfcabf;
+}
+
+.shopPill {
+  position: absolute;
+  z-index: 10;
+  right: clamp(28px, 5.084%, 100px);
+  top: clamp(14px, 3.2vh, 30px);
+  height: clamp(38px, 4.883cqw, 50px);
+  border-radius: 999px;
+  background: #000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(10 / 1536 * 100cqw);
+  padding: 0 calc(7 / 1536 * 100cqw) 0 calc(26 / 1536 * 100cqw);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: clamp(12px, 0.977cqw, 15px);
+  white-space: nowrap;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.shopPill:hover {
+  transform: translateY(-2px) scale(1.03);
+  background: #1a1a1a;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+.shopPill:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.shopArrow {
+  width: clamp(28px, 2.474cqw, 38px);
+  height: clamp(28px, 2.474cqw, 38px);
+  border-radius: 50%;
+  background: #fff;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(14px, 1.302cqw, 20px);
+  flex-shrink: 0;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.shopPill:hover .shopArrow {
+  transform: translateX(3px) rotate(-8deg);
+}
+
+/* ---- Left text column ---- */
+
+.leftColumn {
+  position: absolute;
+  z-index: 10;
+  left: clamp(20px, 4.067%, 68px);
+  top: 20.298%;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 1.9cqw, 30px);
+  max-width: 33%;
+}
+
+.headline {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-antonio), Antonio, "Arial Narrow", sans-serif;
+  font-weight: 700;
+  font-size: clamp(32px, 8cqw, 129px);
+  line-height: clamp(31px, 7.66cqw, 123px);
+  letter-spacing: clamp(-1px, -0.18cqw, -3px);
+}
+
+.headline .bright {
+  color: #fff;
+}
+
+/* Nearly swallowed by the background, same "hidden text" treatment as the Hero's dark headline pair. */
+.headline .hidden {
+  color: #141414;
+}
+
+.subtext {
+  margin: 0;
+  font-weight: 500;
+  font-size: clamp(13px, 1.136cqw, 19px);
+  line-height: 1.3;
+  color: #fff;
+}
+
+.paragraph {
+  margin: 0;
+  max-width: 30vw;
+  font-weight: 400;
+  font-size: clamp(13px, 0.957cqw, 16px);
+  line-height: 1.5;
+  color: #b9b6ae;
+}
+
+/* ---- Scroll up/down ---- */
+
+.scrollUp,
+.scrollDown {
+  position: absolute;
+  z-index: 10;
+  right: clamp(20px, 6.03%, 96px);
+  width: clamp(48px, 4.785cqw, 80px);
+  height: clamp(48px, 4.785cqw, 80px);
+  border-radius: 50%;
+  background: #fff;
+  color: #171717;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(16px, 1.6cqw, 26px);
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease;
+}
+
+.scrollUp {
+  top: 16.791%;
+}
+
+.scrollDown {
+  top: 74.07%;
+}
+
+.scrollUp:hover,
+.scrollDown:hover {
+  background: #ededeb;
+}
+
+.scrollUp:hover {
+  transform: translateY(-4px);
+}
+
+.scrollDown:hover {
+  transform: translateY(4px);
+}
+
+/* ---- Follow us ---- */
+
+.followRow {
+  position: absolute;
+  z-index: 10;
+  right: clamp(20px, 4.8%, 82px);
+  bottom: clamp(20px, 5vh, 60px);
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 2.6cqw, 40px);
+}
+
+.followText {
+  font-weight: 500;
+  font-size: clamp(14px, 1.196cqw, 20px);
+  color: #b9b6ae;
+  white-space: nowrap;
+}
+
+.socialIcons {
+  display: flex;
+  align-items: center;
+  gap: clamp(9px, 0.977cqw, 15px);
+}
+
+.socialIcon {
+  position: relative;
+  width: clamp(32px, 3.11cqw, 52px);
+  height: clamp(32px, 3.11cqw, 52px);
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.socialIcon:hover {
+  transform: translateY(-3px) scale(1.08);
+}
+
+.socialIcon img {
+  object-fit: cover;
+}
