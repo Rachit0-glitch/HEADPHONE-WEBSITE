@@ -5,16 +5,23 @@
   perfectly when ProductTransition scrubs between them). Only the copy, colors, and photo/sphere assets
   differ: "The Color Of Calm / The Depth Of Sound" (white / cyan accent, not Black's "hidden" treatment)
   over a teal radial gradient background.
+
+  This is the DEFAULT/outgoing side of the scroll-scrub reveal (see ProductTransition.tsx): stacked
+  directly on top of ProductSectionBlack, same footprint, and everything here (background, spheres,
+  headline, subtext, paragraph, follow-us) fades out together via `.wrap`'s own opacity, driven by the
+  `--product-progress` custom property ProductTransition writes on scroll (0 = fully shown, 1 = fully
+  gone) — no React re-renders needed, the browser just recomputes these on scroll. The headphone photo
+  additionally shrinks and rises out of frame on top of that fade (see `.headphone` below).
 */
 
 .wrap {
-  position: relative;
+  position: absolute;
+  inset: 0;
   container-type: inline-size;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
   background: radial-gradient(circle at center, #5bb2c0 0%, #0f6b7a 55%, #01424d 100%);
   font-family: var(--font-montserrat), Montserrat, "Helvetica Neue", Arial, sans-serif;
+  opacity: calc(1 - var(--product-progress, 0));
 }
 
 /* ---- Floating spheres + product photo (stacking order matches the live Figma layer order) ---- */
@@ -47,6 +54,7 @@
   z-index: 3;
 }
 
+/* Shrinks and rises out of frame as progress -> 1, on top of the shared fade above. */
 .headphone {
   position: absolute;
   left: 40.789%;
@@ -54,6 +62,8 @@
   width: 31.045%;
   height: 68.863%;
   z-index: 4;
+  transform: translateY(calc(var(--product-progress, 0) * -60%)) scale(calc(1 - var(--product-progress, 0) * 0.65));
+  transform-origin: center;
 }
 
 .sphereTopRight {

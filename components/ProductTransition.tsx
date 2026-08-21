@@ -11,8 +11,7 @@ const SCRUB_VIEWPORTS = 1.15;
 
 export default function ProductTransition() {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const blueRef = useRef<HTMLDivElement>(null);
-  const blackRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let ticking = false;
@@ -20,19 +19,17 @@ export default function ProductTransition() {
     function update() {
       ticking = false;
       const wrapper = wrapperRef.current;
-      const blue = blueRef.current;
-      const black = blackRef.current;
-      if (!wrapper || !blue || !black) return;
+      const sticky = stickyRef.current;
+      if (!wrapper || !sticky) return;
 
       const rect = wrapper.getBoundingClientRect();
       const scrubDistance = wrapper.offsetHeight - window.innerHeight;
       const progress = scrubDistance > 0 ? Math.min(Math.max(-rect.top / scrubDistance, 0), 1) : 0;
 
-      // Blue scrolls fully up and out; Black rises from just below the viewport into place —
-      // both driven directly by scroll position, not a timed animation, so it tracks the scrollbar
-      // (and reverses cleanly on scroll-up) exactly like the brief asked for.
-      blue.style.transform = `translate3d(0, ${-progress * 100}%, 0)`;
-      black.style.transform = `translate3d(0, ${(1 - progress) * 100}%, 0)`;
+      // One custom property, read by both ProductSectionBlue and ProductSectionBlack's CSS (opacity
+      // + the headphone's shrink/grow transform) — this drives the whole crossfade purely through the
+      // browser's own style recalculation on scroll, no React re-render per scroll tick.
+      sticky.style.setProperty("--product-progress", progress.toFixed(4));
     }
 
     function onScrollOrResize() {
@@ -53,13 +50,9 @@ export default function ProductTransition() {
 
   return (
     <div ref={wrapperRef} className={styles.wrapper} style={{ height: `${100 + SCRUB_VIEWPORTS * 100}dvh` }}>
-      <div className={styles.sticky}>
-        <div ref={blueRef} className={styles.panel}>
-          <ProductSectionBlue />
-        </div>
-        <div ref={blackRef} className={styles.panel} style={{ transform: "translate3d(0, 100%, 0)" }}>
-          <ProductSectionBlack />
-        </div>
+      <div ref={stickyRef} className={styles.sticky} style={{ "--product-progress": 0 } as React.CSSProperties}>
+        <ProductSectionBlue />
+        <ProductSectionBlack />
       </div>
     </div>
   );

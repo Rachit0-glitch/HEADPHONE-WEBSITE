@@ -4,21 +4,22 @@
   top-right, subtext/paragraph nudged left). Every position below is that exact px position converted
   to a percentage of the 1672x941 canvas.
 
-  Unlike the Hero section, this section's backdrop is a plain CSS radial-gradient (not a photo), so it
-  fills every viewport exactly — no cover-crop / letterbox trade-off needed here. Floating spheres and
-  the product photo are positioned as simple percentages of `.wrap`; UI chrome (nav/headline/CTA/
-  scroll buttons/follow-us) is also percentage-positioned, all sharing the same `cqw` container-query
-  scaling used in the Hero section for smooth, viewport-independent type sizing.
+  This is the INCOMING side of the scroll-scrub reveal (see ProductTransition.tsx): stacked directly
+  on top of ProductSectionBlue, same footprint. Everything here (background, spheres, headline,
+  subtext, paragraph, follow-us) fades in together via `.wrap`'s own opacity, driven by the
+  `--product-progress` custom property ProductTransition writes on scroll (0 = fully hidden, 1 = fully
+  shown) — no React re-renders needed. The headphone photo additionally grows from small and settles
+  into its resting position on top of that fade (see `.headphone` below).
 */
 
 .wrap {
-  position: relative;
+  position: absolute;
+  inset: 0;
   container-type: inline-size;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
   background: radial-gradient(circle at center, #8a8272 0%, #4a4636 55%, #242019 100%);
   font-family: var(--font-montserrat), Montserrat, "Helvetica Neue", Arial, sans-serif;
+  opacity: var(--product-progress, 0);
 }
 
 /* ---- Floating spheres + product photo (stacking order matches the live Figma layer order) ---- */
@@ -51,6 +52,8 @@
   z-index: 3;
 }
 
+/* Grows from small and settles into its resting position as progress -> 1, on top of the shared fade
+   above (mirror of ProductSectionBlue's exit transform). */
 .headphone {
   position: absolute;
   left: 40.969%;
@@ -58,6 +61,8 @@
   width: 29.844%;
   height: 68.863%;
   z-index: 4;
+  transform: translateY(calc((1 - var(--product-progress, 0)) * 60%)) scale(calc(0.35 + var(--product-progress, 0) * 0.65));
+  transform-origin: center;
 }
 
 .sphereTopRight {
