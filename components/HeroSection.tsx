@@ -1,7 +1,13 @@
 import Image from "next/image";
 import styles from "./HeroSection.module.css";
 
-const NAV_LINKS = ["HOME", "PRODUCTS", "ABOUT", "JOURNAL", "CONTACT"];
+const NAV_LINKS = [
+  { label: "HOME", href: "/" },
+  { label: "PRODUCTS", href: "#" },
+  { label: "ABOUT", href: "#" },
+  { label: "JOURNAL", href: "#" },
+  { label: "CONTACT", href: "#" },
+];
 
 export default function HeroSection() {
   return (
@@ -45,12 +51,14 @@ export default function HeroSection() {
       </div>
 
       {/* ---- UI chrome: pinned to the real viewport edges, never cropped, regardless of screen ratio ---- */}
-      <div className={`${styles.logo} ${styles.fadeInDown}`}>SONIC&deg;</div>
+      <a href="/" className={`${styles.logo} ${styles.fadeInDown}`}>
+        SONIC&deg;
+      </a>
 
       <nav className={`${styles.nav} ${styles.fadeInDown}`} aria-label="Primary">
         {NAV_LINKS.map((link) => (
-          <a key={link} href="#" className={link === "HOME" ? styles.navLinkActive : styles.navLink}>
-            {link}
+          <a key={link.label} href={link.href} className={styles.navLink}>
+            {link.label}
           </a>
         ))}
       </nav>
