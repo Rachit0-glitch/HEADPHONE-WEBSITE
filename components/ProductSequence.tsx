@@ -10,12 +10,13 @@ type Props = {
   // ProductSectionBlue/Black/Green.module.css), matching its fixed position here.
   states: ReactNode[];
   /** Extra scroll distance (in viewport-heights) EACH transition between adjacent states takes, on
-      top of the one viewport-height needed to hold the sticky panel in place. Kept small so one
-      normal scroll gesture (wheel notch or trackpad swipe) is enough to carry each one through. */
+      top of the one viewport-height needed to hold the sticky panel in place. 0.3 (a single wheel
+      notch or trackpad swipe) felt too fast/abrupt; 0.6 gives a more deliberate, easier-to-follow
+      crossfade while still being clearly faster than the original 1.15. */
   scrubViewportsPerTransition?: number;
 };
 
-export default function ProductSequence({ states, scrubViewportsPerTransition = 0.3 }: Props) {
+export default function ProductSequence({ states, scrubViewportsPerTransition = 0.6 }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
   const stateCount = states.length;

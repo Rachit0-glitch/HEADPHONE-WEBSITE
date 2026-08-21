@@ -265,8 +265,10 @@
   gap: clamp(9px, 0.977cqw, 15px);
 }
 
-/* Unlike Black's icons (pre-composited onto their own dark circle), this export gives flat glyphs, so
-   the light circle is built here and the glyph sits centered and smaller inside it. */
+/* Unlike Black's icons (pre-composited onto their own dark circle, filling it edge to edge), this
+   export gives flat glyphs, so the light circle is built here and the glyph sits centered inside it —
+   sized to read at the same visual weight as Black's filled circles (was 46%, too dainty by
+   comparison; 60% matches). */
 .socialIcon {
   position: relative;
   width: clamp(32px, 3.11cqw, 52px);
@@ -285,7 +287,7 @@
 }
 
 .socialIconGlyph {
-  width: 46%;
-  height: 46%;
+  width: 60%;
+  height: 60%;
   object-fit: contain;
 }
