@@ -51,12 +51,28 @@ export default function HeroSection() {
       <div className={styles.mobileArtLayer} aria-hidden="true">
         <Image src="/hero/background-mobile.png" alt="" fill priority className={styles.mobileBg} sizes="100vw" />
         <Image
+          src="/hero/soundwave-left.png"
+          alt=""
+          width={457}
+          height={395}
+          priority
+          className={`${styles.mobileLayer} ${styles.mobileWaveLeft}`}
+        />
+        <Image
           src="/hero/arch.png"
           alt=""
           width={545}
           height={707}
           priority
           className={`${styles.mobileLayer} ${styles.mobileArch}`}
+        />
+        <Image
+          src="/hero/soundwave-right.png"
+          alt=""
+          width={442}
+          height={366}
+          priority
+          className={`${styles.mobileLayer} ${styles.mobileWaveRight}`}
         />
         <Image
           src="/hero/headphone.png"

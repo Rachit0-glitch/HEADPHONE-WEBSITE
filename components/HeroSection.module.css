@@ -300,20 +300,38 @@
     height: auto !important;
   }
 
-  /* Positioned over the shadow baked into background-mobile.png — arch anchored slightly up/left of
-     the headphone, matching the desktop pair's own relative offset, just rescaled into this corner. */
+  /* Positions below are ported from the "Headphone Hero Mobile" Figma frame (941x1672 canvas) after
+     hand-tuning there — each is that frame's exact px position converted to a percentage, matching
+     the desktop pattern of Figma-as-source-of-truth for these overlay positions. Widths are capped in
+     px (not left as bare percentages): at tablet widths (this query runs up to 880px) the uncapped %
+     grows the headphone enough to nearly touch Discover More (measured a 2px gap at 763px) — the cap
+     keeps every element's absolute size — and the whole cluster's height — sane past phone widths. */
+  .mobileWaveLeft {
+    left: 3.08%;
+    top: 50%;
+    width: clamp(120px, 51.01%, 280px);
+    z-index: 1;
+  }
+
   .mobileArch {
-    left: 58%;
-    top: 49.7%;
-    width: 36.9%;
+    left: 51.01%;
+    top: 42.16%;
+    width: clamp(105px, 45.7%, 250px);
     z-index: 2;
   }
 
-  .mobileHeadphone {
-    left: 58%;
-    top: 60%;
-    width: 31%;
+  .mobileWaveRight {
+    left: 61.95%;
+    top: 54.55%;
+    width: clamp(90px, 38.04%, 208px);
     z-index: 3;
+  }
+
+  .mobileHeadphone {
+    left: 46.97%;
+    top: 53%;
+    width: clamp(100px, 42.08%, 230px);
+    z-index: 4;
   }
 
   .discover {
